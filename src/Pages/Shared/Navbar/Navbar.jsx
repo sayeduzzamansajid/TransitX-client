@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Logo from '../../../Components/Logo/Logo';
+import { AuthContext } from '../../../Context/AuthContext';
+import { Link, NavLink } from 'react-router';
 
 const Navbar = () => {
+    const {user,togl, setTogl,signout} = useContext(AuthContext)
+    const handleLogOut = ()=>{
+        signout()
+    }
     return (
         <div className="navbar px-16 bg-base-100 shadow-sm">
             <div className="navbar-start">
@@ -41,7 +47,38 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                {
+                user ?
+                    <div className="flex gap-2">
+
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img
+                                    title={user?.displayName}
+                                        alt="Tailwind CSS Navbar component"
+                                        src={user?.photoURL} />
+                                        
+                                </div>
+                                
+                            </div>
+                            <ul
+                                tabIndex="-1"
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                                <li><NavLink to='/my-profile'>My Profile</NavLink></li>
+                                <li ><button onClick={handleLogOut} >Logout</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                    : <div>
+                        <Link to={"/login"}>
+                            <button onClick={() => setTogl(false)} className={`btn btn-primary ${togl ? "bg-white text-black" : ""}`}>Login</button>
+                        </Link>
+                        <Link to={"/register"}>
+                            <button onClick={() => setTogl(true)} className={`btn btn-primary ${togl ? "" : "bg-white text-black"}`}>Register</button>
+                        </Link>
+                    </div>
+            }
             </div>
         </div>
     );
