@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
-    const {setTogl,setUser, signIn, googleSignIn} = useAuth()
+  const { setTogl, setUser, signIn, googleSignIn } = useAuth()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -13,22 +14,33 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const {email,password} = data ;
-    signIn(email,password)
-    console.log(email,password);
+    const { email, password } = data;
+    signIn(email, password)
+      .then(res => {
+        toast.success("Logged in")
+        navigate("/")})
+      .catch(errors =>{
+        console.log(errors);
+        toast.error(errors.message)
+      })
+    // console.log(email,password);
 
     // 🔥 Firebase login will be added later
-    
+
   };
 
-  const handleGogleSignIn =()=>{
+  const handleGogleSignIn = () => {
     googleSignIn()
-    .then(res => {
-        console.log(res.user);
+      .then(res => {
+        // console.log(res.user);
         setUser(res.user)
         toast.success("Login Successful")
-    })
-    .catch()
+        navigate("/")
+      })
+      .catch(errors =>{
+        console.log(errors);
+        toast.error(errors.message)
+      })
   }
 
   return (
@@ -85,12 +97,12 @@ const Login = () => {
           <div className="text-right">
             <NavLink to={"forgot-password"}>
 
-            <button
-              type="button"
-              className="text-sm text-primary hover:underline"
-            >
-              Forgot password?
-            </button>
+              <button
+                type="button"
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot password?
+              </button>
             </NavLink>
           </div>
 
@@ -116,7 +128,7 @@ const Login = () => {
         <p className="text-center text-sm mt-6">
           Don’t have an account?{" "}
           <Link
-          onClick={() => setTogl(true)}
+            onClick={() => setTogl(true)}
             to="/register"
             className="text-primary font-medium hover:underline"
           >

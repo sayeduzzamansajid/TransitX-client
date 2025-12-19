@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
-import { useContext } from "react";
-import { AuthContext } from "../../Context/AuthContext";
+import toast from "react-hot-toast";
+import useAuth from "../../Hooks/useAuth";
 
 const Register = () => {
+
+  const { setTogl, createUser, setUser, googleSignIn, updateuser } = useAuth()
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -12,16 +16,56 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-//   const password = watch("password");
+  //   const password = watch("password");
 
-const {setTogl}= useContext(AuthContext)
+  //sign up with email and password
   const handleRegister = (data) => {
-    console.log("Register Data:", data);
-    // 🔥 Firebase register logic will be added later
+    const { name, email, photoURL, password } = data;
+    console.log(name, email, photoURL, password);
+
+    //create user with email and password
+    createUser(email, password)
+      .then(res => {
+        // console.log(res.user);
+        setUser(res.user)
+        navigate("/")
+        //updating user profile with name and image
+        updateuser({
+          displayName: name,
+          photoURL: photoURL
+        })
+          .then(resp => {
+            toast.success("user created Successfully!")
+          })
+          .catch(err => {
+            console.log(err);
+            toast.error(err.message)
+          })
+      })
+      .catch(errors => {
+        console.log(errors);
+        toast.error(errors.message)
+      })
+
   };
 
+  //Google sign In
+  const handleGooglSignIn = () => {
+    googleSignIn()
+      .then(res => {
+        // console.log(res.user);
+        setUser(res.user)
+        toast.success("Register Successful")
+        navigate("/")
+      })
+      .catch(errors => {
+        console.log(errors);
+        toast.error(errors.message)
+      })
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-base-100 pt-15 px-4">
       <div className="w-full max-w-md bg-base-200 p-8 rounded-2xl shadow-xl">
         {/* Title */}
         <h2 className="text-3xl font-bold text-center mb-6 text-neutral">
@@ -120,7 +164,7 @@ const {setTogl}= useContext(AuthContext)
           </div>
 
           {/* Confirm Password */}
-          <div>
+          {/* <div>
             <label className="label">
               <span className="label-text font-medium">
                 Confirm Password
@@ -141,7 +185,7 @@ const {setTogl}= useContext(AuthContext)
                 {errors.confirmPassword.message}
               </p>
             )}
-          </div>
+          </div> */}
 
           {/* Register button */}
           <button
@@ -156,7 +200,7 @@ const {setTogl}= useContext(AuthContext)
         <div className="divider my-6">OR</div>
 
         {/* Google Register */}
-        <button className="btn btn-outline w-full flex items-center gap-2">
+        <button onClick={handleGooglSignIn} className="btn btn-outline w-full flex items-center gap-2">
           <FcGoogle size={22} />
           Continue with Google
         </button>
@@ -165,7 +209,7 @@ const {setTogl}= useContext(AuthContext)
         <p className="text-center text-sm mt-6">
           Already have an account?{" "}
           <Link
-          onClick={() => setTogl(false)}
+            onClick={() => setTogl(false)}
             to="/login"
             className="text-primary font-medium hover:underline"
           >

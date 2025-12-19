@@ -4,12 +4,29 @@ import { AuthContext } from '../../../Context/AuthContext';
 import { Link, NavLink } from 'react-router';
 
 const Navbar = () => {
-    const {user,togl, setTogl,signout} = useContext(AuthContext)
-    const handleLogOut = ()=>{
+    const { user, togl, setTogl, signout } = useContext(AuthContext)
+    const handleLogOut = () => {
         signout()
     }
+
+    const links = <>
+        <li><NavLink>All Ticket</NavLink></li>
+        <li>
+            <details>
+                <summary>About</summary>
+                <ul className="p-2 bg-base-100 w-40 z-1">
+                    <li><NavLink to={"/why-choose-us"}>Why Choose Us</NavLink></li>
+                    <li><NavLink to={"/about"}>About Us</NavLink></li>
+                </ul>
+            </details>
+        </li>
+
+        <li><NavLink to={"/contact"}>Contact Us</NavLink></li>
+
+    </>
+
     return (
-        <div className="navbar px-16 bg-base-100 shadow-sm">
+        <div className="navbar fixed z-10 px-16 bg-base-100 shadow-sm">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -18,67 +35,49 @@ const Navbar = () => {
                     <ul
                         tabIndex="-1"
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><a>Item 1</a></li>
-                        <li>
-                            <a>Parent</a>
-                            <ul className="p-2">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
-                            </ul>
-                        </li>
-                        <li><a>Item 3</a></li>
+                        {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl"><Logo/></a>
+                <Link to={"/"} className="text-xl"><Logo /></Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a>Item 1</a></li>
-                    <li>
-                        <details>
-                            <summary>Parent</summary>
-                            <ul className="p-2 bg-base-100 w-40 z-1">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
-                            </ul>
-                        </details>
-                    </li>
-                    <li><a>Item 3</a></li>
+                    {links}
                 </ul>
             </div>
             <div className="navbar-end">
                 {
-                user ?
-                    <div className="flex gap-2">
+                    user ?
+                        <div className="flex gap-2">
 
-                        <div className="dropdown dropdown-end">
-                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img
-                                    title={user?.displayName}
-                                        alt="Tailwind CSS Navbar component"
-                                        src={user?.photoURL} />
-                                        
+                            <div className="dropdown dropdown-end">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img
+                                            title={user?.displayName}
+                                            alt="Tailwind CSS Navbar component"
+                                            src={user?.photoURL} />
+
+                                    </div>
+
                                 </div>
-                                
+                                <ul
+                                    tabIndex="-1"
+                                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                                    <li><NavLink to='/my-profile'>My Profile</NavLink></li>
+                                    <li ><button onClick={handleLogOut} >Logout</button></li>
+                                </ul>
                             </div>
-                            <ul
-                                tabIndex="-1"
-                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                                <li><NavLink to='/my-profile'>My Profile</NavLink></li>
-                                <li ><button onClick={handleLogOut} >Logout</button></li>
-                            </ul>
                         </div>
-                    </div>
-                    : <div>
-                        <Link to={"/login"}>
-                            <button onClick={() => setTogl(false)} className={`btn btn-primary ${togl ? "bg-white text-black" : ""}`}>Login</button>
-                        </Link>
-                        <Link to={"/register"}>
-                            <button onClick={() => setTogl(true)} className={`btn btn-primary ${togl ? "" : "bg-white text-black"}`}>Register</button>
-                        </Link>
-                    </div>
-            }
+                        : <div>
+                            <Link to={"/login"}>
+                                <button onClick={() => setTogl(false)} className={`btn btn-primary ${togl ? "bg-white text-black" : ""}`}>Login</button>
+                            </Link>
+                            <Link to={"/register"}>
+                                <button onClick={() => setTogl(true)} className={`btn btn-primary ${togl ? "" : "bg-white text-black"}`}>Register</button>
+                            </Link>
+                        </div>
+                }
             </div>
         </div>
     );
