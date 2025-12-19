@@ -9,7 +9,7 @@ const Footer = () => {
                     <aside>
                         <Logo/>
                         <p>
-                            SkillSwap Ltd.
+                            TransitX Ltd.
                             <br />
                             Providing reliable tech since 1992
                         </p>
@@ -72,7 +72,7 @@ const Footer = () => {
             </footer>
             <footer className=" bg-primary text-neutral-content items-center p-4">
                 <div className='footer sm:footer-horizontal w-[80vw] mx-auto flex justify-around text-black'>
-                    <aside className="">
+                    <aside className="text-white">
                         <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
                     </aside>
 

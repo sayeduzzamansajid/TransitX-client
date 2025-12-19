@@ -8,6 +8,9 @@ import ForgotPassword from "../Pages/Auth/ForgotPassword.jsx";
 import Contact from "../Pages/Contact.jsx";
 import About from "../Pages/About.jsx";
 import WhyChooseUs from "../Pages/WhyChooseUs.jsx";
+import AllTickets from "../Pages/All Tickets/AllTickets.jsx";
+import TicketDetails from "../Pages/All Tickets/TicketDetails.jsx";
+import PrivateRoute from "../Pages/Private/PrivateRoute.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -41,6 +44,18 @@ export const router = createBrowserRouter([
             {
                 path:'why-choose-us',
                 Component:WhyChooseUs
+            },
+            {
+                path:'all-tickets',
+                element:<PrivateRoute>
+                    <AllTickets/>
+                </PrivateRoute>
+            },
+            {
+                path:'tickets/:id',
+                element:<PrivateRoute>
+                    <TicketDetails/>
+                </PrivateRoute>
             },
 
             { 

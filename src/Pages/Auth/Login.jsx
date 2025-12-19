@@ -1,24 +1,32 @@
 import { useForm } from "react-hook-form";
-import { Link, NavLink, useNavigate } from "react-router";
+import { Link, Navigate, NavLink, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const { setTogl, setUser, signIn, googleSignIn } = useAuth()
-  const navigate = useNavigate()
+  const { setTogl, setUser, signIn, googleSignIn,user } = useAuth()
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  if(user){
+    return <Navigate to={"/"}></Navigate>
+  }
+
   const onSubmit = (data) => {
     const { email, password } = data;
     signIn(email, password)
       .then(res => {
         toast.success("Logged in")
-        navigate("/")})
+        navigate(from)})
       .catch(errors =>{
         console.log(errors);
         toast.error(errors.message)
@@ -35,7 +43,7 @@ const Login = () => {
         // console.log(res.user);
         setUser(res.user)
         toast.success("Login Successful")
-        navigate("/")
+        navigate(from)
       })
       .catch(errors =>{
         console.log(errors);

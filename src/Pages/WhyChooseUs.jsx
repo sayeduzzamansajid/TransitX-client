@@ -6,7 +6,7 @@ const WhyChooseUs = () => {
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <h2 className="text-4xl font-bold text-center mb-4">
-                    Why Choose TransitX
+                    Why Choose <span className="text-primary">Transit</span><span className="text-[#9CA3AF]">X</span>
 
                 </h2>
                 <p className="text-center text-gray-500 max-w-2xl mx-auto mb-12">

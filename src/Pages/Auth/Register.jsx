@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
+import LoadingBar from "../Shared/LoadingBar";
 
 const Register = () => {
 
-  const { setTogl, createUser, setUser, googleSignIn, updateuser } = useAuth()
+  const { setTogl, createUser, setUser, googleSignIn, updateuser,user,loading } = useAuth()
   const navigate = useNavigate()
 
   const {
@@ -15,6 +16,12 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm();
+  if(loading){
+    return LoadingBar
+  }
+  if(user){
+    return <Navigate to={'/'}></Navigate>
+  }
 
   //   const password = watch("password");
 

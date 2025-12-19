@@ -10,7 +10,7 @@ const Navbar = () => {
     }
 
     const links = <>
-        <li><NavLink>All Ticket</NavLink></li>
+        <li><NavLink to={"all-tickets"}>All Ticket</NavLink></li>
         <li>
             <details>
                 <summary>About</summary>
