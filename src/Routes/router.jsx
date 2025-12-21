@@ -15,6 +15,11 @@ import DashboardLayout from "../Layouts/DashboardLayout.jsx";
 import UserProfile from "../Pages/Dashboard/User/UserProfile.jsx";
 import MyBookedTickets from "../Pages/Dashboard/User/MyBookedTickets.jsx";
 import TransactionHistory from "../Pages/Dashboard/User/TransactionHistory.jsx";
+import VendorProfile from "../Pages/Dashboard/Vendor/VendorProfile.jsx";
+import AddTicket from "../Pages/Dashboard/Vendor/AddTicket.jsx";
+import MyAddedTickets from "../Pages/Dashboard/Vendor/MyAddedTickets.jsx";
+import RequestedBookings from "../Pages/Dashboard/Vendor/RequestedBookings.jsx";
+import RevenueOverview from "../Pages/Dashboard/Vendor/RevenueOverview.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -30,69 +35,105 @@ export const router = createBrowserRouter([
                 Component: Login,
             },
             {
-                path:"register",
-                Component:Register
+                path: "register",
+                Component: Register
             },
             {
-                path:'login/forgot-password',
-                Component:ForgotPassword
+                path: 'login/forgot-password',
+                Component: ForgotPassword
             },
             {
-                path:'contact',
-                Component:Contact
+                path: 'contact',
+                Component: Contact
             },
             {
-                path:'about',
-                Component:About
+                path: 'about',
+                Component: About
             },
             {
-                path:'why-choose-us',
-                Component:WhyChooseUs
+                path: 'why-choose-us',
+                Component: WhyChooseUs
             },
             {
-                path:'all-tickets',
-                element:<PrivateRoute>
-                    <AllTickets/>
+                path: 'all-tickets',
+                element: <PrivateRoute>
+                    <AllTickets />
                 </PrivateRoute>
             },
             {
-                path:'tickets/:id',
-                element:<PrivateRoute>
-                    <TicketDetails/>
+                path: 'tickets/:id',
+                element: <PrivateRoute>
+                    <TicketDetails />
                 </PrivateRoute>
             },
 
-            { 
-                path: "*", 
-                Component: Error404 
+            {
+                path: "*",
+                Component: Error404
             }
         ]
     },
     {
-        path:'/dashboard',
-        element:<PrivateRoute>
-            <DashboardLayout/>
+        path: '/dashboard',
+        element: <PrivateRoute>
+            <DashboardLayout />
         </PrivateRoute>,
-        errorElement:<Error404/>,
-        children:[
+        errorElement: <Error404 />,
+        children: [
+            // user routes
             {
-                path:'/dashboard/User-profile',
-                element:<PrivateRoute>
-                    <UserProfile/>
+                path: '/dashboard/user/profile',
+                element: <PrivateRoute>
+                    <UserProfile />
                 </PrivateRoute>
             },
             {
-                path:'/dashboard/my-booked-tickets',
-                element:<PrivateRoute>
-                    <MyBookedTickets/>
+                path: '/dashboard/user/bookings',
+                element: <PrivateRoute>
+                    <MyBookedTickets />
                 </PrivateRoute>
             },
             {
-                path:'/dashboard/transaction-history',
-                element:<PrivateRoute>
-                    <TransactionHistory/>
+                path: '/dashboard/user/transactions',
+                element: <PrivateRoute>
+                    <TransactionHistory />
                 </PrivateRoute>
-            }
+            },
+            // Vendor Routes
+            // dashboard children (example)
+            {
+                path: "/dashboard/vendor/profile",
+                element: <PrivateRoute>
+                    <VendorProfile/>
+                </PrivateRoute>
+            },
+            {
+                path: "/dashboard/vendor/add-ticket",
+                element: <PrivateRoute>
+                    <AddTicket/>
+                </PrivateRoute>
+            },
+            {
+                path: "/dashboard/vendor/my-tickets",
+                element:<PrivateRoute>
+                    <MyAddedTickets/>
+                </PrivateRoute>
+            },
+
+            {
+                path: "/dashboard/vendor/requests",
+                element: <PrivateRoute>
+                    <RequestedBookings/>
+                </PrivateRoute>
+            },
+
+            {
+                path: "/dashboard/vendor/revenue",
+                element: <PrivateRoute>
+                    <RevenueOverview/>
+                </PrivateRoute>
+            },
+
         ]
     }
 ])

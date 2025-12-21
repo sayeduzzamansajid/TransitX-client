@@ -3,11 +3,14 @@ import { Link, NavLink, Outlet } from "react-router";
 import Logo from "../Components/Logo/Logo";
 import { BiUser } from "react-icons/bi";
 import { FaTicket } from "react-icons/fa6";
-import { FaMoneyBill } from "react-icons/fa";
+import { FaMoneyBill, FaPlusSquare } from "react-icons/fa";
+import { BsCashCoin } from "react-icons/bs";
+import { TbBrandBooking } from "react-icons/tb";
+import { MdAdd } from "react-icons/md";
 
 const DashboardLayout = () => {
   // later: get user role from context (user / vendor / admin)
-  const role = "user"; // temporary
+  const role = "vendor"; // temporary
 
   return (
     <div className="drawer lg:drawer-open">
@@ -38,33 +41,85 @@ const DashboardLayout = () => {
               <li className="hover:bg-white rounded-sm">
                 <Link to={"/"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                  <span  className="is-drawer-close:hidden">Homepage</span>
+                  <span className="is-drawer-close:hidden">Homepage</span>
                 </Link>
               </li>
-              {/* user Profile  */}
-              <li className="hover:bg-white rounded-sm">
-                <Link to={"/dashboard/user-profile"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
+            {/* user sidebar content  */}
+              <div>
+                {/* user Profile  */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/user/profile"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
 
-                  <BiUser />
-                  <span className="is-drawer-close:hidden">User Profile</span>
-                </Link>
-              </li>
-              {/* My Booked Ticket  */}
-              <li className="hover:bg-white rounded-sm">
-                <Link to={"/dashboard/my-booked-tickets"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Booked Ticket">
+                    <BiUser />
+                    <span className="is-drawer-close:hidden">User Profile</span>
+                  </Link>
+                </li>
+                {/* My Booked Ticket  */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/user/bookings"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Booked Ticket">
 
-                  <FaTicket />
-                  <span className="is-drawer-close:hidden">My Booked Ticket</span>
-                </Link>
-              </li>
-              {/* Transaction Hostory  */}
-              <li className="hover:bg-white rounded-sm">
-                <Link to={"/dashboard/transaction-history"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+                    <FaTicket />
+                    <span className="is-drawer-close:hidden">My Booked Ticket</span>
+                  </Link>
+                </li>
+                {/* Transaction Hostory  */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/user/transactions"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
 
-                  <FaMoneyBill />
-                  <span className="is-drawer-close:hidden">Transaction History</span>
-                </Link>
-              </li>
+                    <FaMoneyBill />
+                    <span className="is-drawer-close:hidden">Transaction History</span>
+                  </Link>
+                </li>
+              </div>
+
+              {/* Vendor Sidebar Content  */}
+              <div>
+                {/* Vendor Profile  */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/vendor/profile"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
+
+                    <BiUser />
+                    <span className="is-drawer-close:hidden">Vendor Profile</span>
+                  </Link>
+                </li>
+                {/* Add a Ticket  */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/vendor/add-ticket"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Booked Ticket">
+
+                    <MdAdd />
+                    <span className="is-drawer-close:hidden">Add a Ticket</span>
+                  </Link>
+                </li>
+                {/* My Added Tickets */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/vendor/my-tickets"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+
+                    <FaPlusSquare />
+                    <span className="is-drawer-close:hidden">My Added Tickets</span>
+                  </Link>
+                </li>
+                {/* Requested Bookings  */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/vendor/requests"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+
+                    <TbBrandBooking />
+                    <span className="is-drawer-close:hidden">Requested Bookings</span>
+                  </Link>
+                </li>
+                {/* Revinew Overview */}
+                <li className="hover:bg-white rounded-sm">
+                  <Link to={"/dashboard/vendor/revenue"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+
+                    <BsCashCoin />
+                    <span className="is-drawer-close:hidden">Revinew Overview</span>
+                  </Link>
+                </li>
+              </div>
+
+              {/* Admin sidebar content  */}
+              <div>
+
+              </div>
             </div>
 
             {/* List item */}
