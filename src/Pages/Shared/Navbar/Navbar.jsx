@@ -10,23 +10,61 @@ const Navbar = () => {
     }
 
     const links = <>
-        <li><NavLink to={"all-tickets"}>All Ticket</NavLink></li>
         <li>
-            <details>
-                <summary>About</summary>
-                <ul className="p-2 bg-base-100 w-40 z-1">
-                    <li><NavLink to={"/why-choose-us"}>Why Choose Us</NavLink></li>
-                    <li><NavLink to={"/about"}>About Us</NavLink></li>
-                </ul>
-            </details>
+            <NavLink to="/" className={({ isActive }) => `nav-link ${isActive ? "nav-link-active" : ""}`} >
+                Home
+            </NavLink>
         </li>
 
-        <li><NavLink to={"/contact"}>Contact Us</NavLink></li>
+        <li> <NavLink to="/all-tickets" className={({ isActive }) => `nav-link ${isActive ? "nav-link-active" : ""}`} >
+            All Ticket
+        </NavLink> </li>
+        <li>
+            <NavLink
+                to="/why-choose-us"
+                className={({ isActive }) =>
+                    `nav-link ${isActive ? "nav-link-active" : ""}`
+                }
+            >
+                Why Choose Us
+            </NavLink>
+        </li>
+
+
+        {/* <li >
+            <details>
+                <summary className="nav-link">About</summary>
+                <ul className="p-2 bg-base-100 w-40 z-1"> */}
+
+        <li>
+            <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                    `nav-link ${isActive ? "nav-link-active" : ""}`
+                }
+            >
+                About Us
+            </NavLink>
+        </li>
+        <li>
+            <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                    `nav-link ${isActive ? "nav-link-active" : ""}`
+                }
+            >
+                Contact Us
+            </NavLink>
+        </li>
+        {/* </ul>
+            </details>
+        </li> */}
+
 
     </>
 
     return (
-        <div className="navbar fixed z-10 px-16 bg-base-100 shadow-sm">
+        <div className="navbar fixed z-10 px-16 bg-base-300/50 backdrop-blur-sm shadow-sm">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -54,7 +92,8 @@ const Navbar = () => {
                                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                     <div className="w-10 rounded-full">
                                         <img
-                                        referrerPolicy="no-referrer"
+                                            data-tip={user?.displayName}
+                                            referrerPolicy="no-referrer"
                                             title={user?.displayName}
                                             alt="Tailwind CSS Navbar component"
                                             src={user?.photoURL} />

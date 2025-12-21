@@ -5,16 +5,18 @@ import WhyChooseUs from './WhyChooseUs';
 import HowItWorks from './HowItWorks';
 import Testimonials from './Testimonials';
 import AdvertisementSection from './AdvertisementSection';
+import Accordion from './Accordion';
 
 const Home = () => {
     return (
-        <div>
+        <div className='w-7xl mx-auto'>
             <Slider/>
             <AdvertisementSection/>
             <WhyChooseUs/>
             <PopularRoutes/>
             <Testimonials/>
             <HowItWorks/>
+            <Accordion/>
         </div>
     );
 };

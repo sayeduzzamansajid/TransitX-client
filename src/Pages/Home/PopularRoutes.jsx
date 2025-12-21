@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const popularRoutes = [
   {
     from: "Dhaka",
@@ -47,9 +49,9 @@ export default function PopularRoutes() {
                   Transport: {route.transport}
                 </p>
                 <p className="text-primary font-bold">{route.price}</p>
-                <button className="btn btn-outline btn-sm mt-3">
+                <Link to={"all-tickets"} className="btn btn-outline btn-sm mt-3">
                   View Tickets
-                </button>
+                </Link>
               </div>
             </div>
           ))}

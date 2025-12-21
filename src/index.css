@@ -49,3 +49,11 @@ body {
 .dashboard-link-active {
   @apply bg-white text-neutral shadow-sm;
 }
+/* index.css */
+.nav-link {
+  @apply px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary;
+}
+
+.nav-link-active {
+  @apply bg-primary text-base-100;
+}
