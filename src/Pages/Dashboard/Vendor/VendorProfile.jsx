@@ -1,15 +1,12 @@
 // src/Pages/Dashboard/Vendor/VendorProfile.jsx
 
+import useAuth from "../../../Hooks/useAuth";
+import useRole from "../../../Hooks/useRole";
+
 const VendorProfile = () => {
   // later: get from auth / backend
-  const user = {
-    name: "Demo Vendor",
-    email: "vendor@example.com",
-    role: "vendor",
-    photoURL: "https://i.pravatar.cc/150?img=8",
-    company: "TransitX Partner",
-    joinedAt: "2025-01-05",
-  };
+  const {user} = useAuth();
+  const [role] = useRole()
 
   return (
     <>
@@ -30,7 +27,7 @@ const VendorProfile = () => {
             </a>
             {/* role  */}
             <p className='p-2 px-4 text-xs text-white bg-primary rounded-full'>
-              Customer
+              {role}
             </p>
             <p className='mt-2 text-xl font-medium text-gray-800 '>
               User Id: {user?.uid}

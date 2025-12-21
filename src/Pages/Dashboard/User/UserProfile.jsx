@@ -1,8 +1,10 @@
 import useAuth from "../../../Hooks/useAuth";
+import useRole from "../../../Hooks/useRole";
 
 const UserProfile = () => {
   // later: replace with auth user data
   const { user } = useAuth()
+  const [role] = useRole()
 //   const [role, isRoleLoading] = useRole()
   // const { role, isRoleLoading } = useRole()
 //   console.log(role, isRoleLoading)
@@ -24,7 +26,7 @@ const UserProfile = () => {
           </a>
             {/* role  */}
           <p className='p-2 px-4 text-xs text-white bg-primary rounded-full'>
-            Customer
+            {role}
           </p>
           <p className='mt-2 text-xl font-medium text-gray-800 '>
             User Id: {user?.uid}

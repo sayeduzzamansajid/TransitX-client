@@ -3,9 +3,10 @@ import { Link, Navigate, NavLink, useLocation, useNavigate } from "react-router"
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import { saveOrUpdateUser } from "../../Utils";
 
 const Login = () => {
-  const { setTogl, setUser, signIn, googleSignIn,user } = useAuth()
+  const { setTogl, setUser, signIn, googleSignIn, user } = useAuth()
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -17,7 +18,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  if(user){
+  if (user) {
     return <Navigate to={"/"}></Navigate>
   }
 
@@ -27,8 +28,9 @@ const Login = () => {
       .then(res => {
         console.log(res);
         toast.success("Logged in")
-        navigate(from)})
-      .catch(errors =>{
+        navigate(from)
+      })
+      .catch(errors => {
         console.log(errors);
         toast.error(errors.message)
       })
@@ -43,10 +45,16 @@ const Login = () => {
       .then(res => {
         // console.log(res.user);
         setUser(res.user)
+        const userData = {
+          name: res?.user?.displayName,
+          email: res?.user?.email,
+          image: res?.user?.photoURL
+        }
+        saveOrUpdateUser(userData) //save user to mongodb
         toast.success("Login Successful")
         navigate(from)
       })
-      .catch(errors =>{
+      .catch(errors => {
         console.log(errors);
         toast.error(errors.message)
       })

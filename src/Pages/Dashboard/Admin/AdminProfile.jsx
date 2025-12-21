@@ -1,6 +1,7 @@
 // src/Pages/Dashboard/Admin/AdminProfile.jsx
 
 import useAuth from "../../../Hooks/useAuth";
+import useRole from "../../../Hooks/useRole";
 
 const AdminProfile = () => {
   // later: load from auth / backend
@@ -12,7 +13,10 @@ const AdminProfile = () => {
 //     joinedAt: "2025-01-01",
 //   };
 
-const {user} =useAuth()
+const {user} =useAuth();
+const [role] = useRole();
+
+
   return (
     <>
     <div className='flex justify-center items-center h-[90vh]'>
@@ -32,7 +36,7 @@ const {user} =useAuth()
           </a>
             {/* role  */}
           <p className='p-2 px-4 text-xs text-white bg-primary rounded-full'>
-            Customer
+            {role}
           </p>
           <p className='mt-2 text-xl font-medium text-gray-800 '>
             User Id: {user?.uid}

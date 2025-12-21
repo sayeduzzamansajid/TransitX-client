@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import LoadingBar from "../Shared/LoadingBar";
+import { saveOrUpdateUser } from "../../Utils";
 
 const Register = () => {
 
@@ -28,12 +29,17 @@ const Register = () => {
   const handleRegister = (data) => {
     const { name, email, photoURL, password } = data;
     console.log(name, email, photoURL, password);
+    const userData={
+      name, email, photo:photoURL,
+    } 
 
     //create user with email and password
     createUser(email, password)
       .then(res => {
         // console.log(res.user);
-        setUser(res.user)
+        setUser(res.user);
+        //save user to mongoB
+        saveOrUpdateUser(userData)
         navigate("/")
         //updating user profile with name and image
         updateuser({
@@ -62,6 +68,12 @@ const Register = () => {
       .then(res => {
         // console.log(res.user);
         setUser(res.user)
+        const userData = {
+          name: res?.user?.displayName,
+          email: res?.user?.email,
+          image: res?.user?.photoURL
+        }
+        saveOrUpdateUser(userData) //save user to mongodb
         toast.success("Register Successful")
         navigate("/")
       })
