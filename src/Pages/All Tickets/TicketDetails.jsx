@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router";
+import { Link } from "react-router";
 import { FaBusAlt, FaTrain, FaPlane, FaShip } from "react-icons/fa";
 
 const dummyTicket = {
@@ -31,7 +31,7 @@ const getIcon = (type) => {
 };
 
 const TicketDetails = () => {
-    const { id } = useParams(); // will be used after backend
+    // const { id } = useParams(); // will be used after backend
 
     const ticket = dummyTicket; // 🔴 replace later
     // const [ticket, setTicket] = useState(null);

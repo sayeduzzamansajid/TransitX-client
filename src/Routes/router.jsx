@@ -11,6 +11,10 @@ import WhyChooseUs from "../Pages/WhyChooseUs.jsx";
 import AllTickets from "../Pages/All Tickets/AllTickets.jsx";
 import TicketDetails from "../Pages/All Tickets/TicketDetails.jsx";
 import PrivateRoute from "../Pages/Private/PrivateRoute.jsx";
+import DashboardLayout from "../Layouts/DashboardLayout.jsx";
+import UserProfile from "../Pages/Dashboard/User/UserProfile.jsx";
+import MyBookedTickets from "../Pages/Dashboard/User/MyBookedTickets.jsx";
+import TransactionHistory from "../Pages/Dashboard/User/TransactionHistory.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -61,6 +65,33 @@ export const router = createBrowserRouter([
             { 
                 path: "*", 
                 Component: Error404 
+            }
+        ]
+    },
+    {
+        path:'/dashboard',
+        element:<PrivateRoute>
+            <DashboardLayout/>
+        </PrivateRoute>,
+        errorElement:<Error404/>,
+        children:[
+            {
+                path:'/dashboard/User-profile',
+                element:<PrivateRoute>
+                    <UserProfile/>
+                </PrivateRoute>
+            },
+            {
+                path:'/dashboard/my-booked-tickets',
+                element:<PrivateRoute>
+                    <MyBookedTickets/>
+                </PrivateRoute>
+            },
+            {
+                path:'/dashboard/transaction-history',
+                element:<PrivateRoute>
+                    <TransactionHistory/>
+                </PrivateRoute>
             }
         ]
     }

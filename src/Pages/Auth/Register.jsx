@@ -13,7 +13,6 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   if(loading){
@@ -42,6 +41,7 @@ const Register = () => {
           photoURL: photoURL
         })
           .then(resp => {
+            console.log(resp);
             toast.success("user created Successfully!")
           })
           .catch(err => {

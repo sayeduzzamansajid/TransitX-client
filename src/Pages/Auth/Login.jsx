@@ -25,6 +25,7 @@ const Login = () => {
     const { email, password } = data;
     signIn(email, password)
       .then(res => {
+        console.log(res);
         toast.success("Logged in")
         navigate(from)})
       .catch(errors =>{

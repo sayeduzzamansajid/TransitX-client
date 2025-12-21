@@ -141,14 +141,6 @@ export default function Slider() {
 
     // Array of images. Easier to manage as data.
 
-//     
-// 
-// 
-// 
-// 
-// 
-// 
-
     const images = [
         { src: "https://i.ibb.co.com/vCKwkKB6/pic3.jpg", alt: "Placeholder Image 1" },
         { src: "https://i.ibb.co.com/FbThkFv6/pic1.jpg", alt: "Placeholder Image 2" },
@@ -245,7 +237,7 @@ export default function Slider() {
             <CarouselStyles />
 
             {/* Main layout container (using Tailwind) */}
-            <div  className="bg-base min-h-screen flex flex-col items-center p-4 sm:p-8">
+            <div  className="bg-base min-h-screen flex flex-col items-center p-4 sm:p-8 lg:pt-25">
                 <h1 className="text-4xl font-bold text-primary mb-8">All Ticket Book From Here</h1>
 
                 <div className="w-[80vw] max-w-6xl ">
