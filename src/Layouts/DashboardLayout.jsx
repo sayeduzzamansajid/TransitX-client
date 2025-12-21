@@ -44,87 +44,166 @@ const DashboardLayout = () => {
                   <span className="is-drawer-close:hidden">Homepage</span>
                 </Link>
               </li>
-            {/* user sidebar content  */}
-              <div>
-                {/* user Profile  */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/user/profile"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
+              {
+                role === 'admin' ? <div>
+                  {/* Admin Profile  */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink
+                      to="/dashboard/admin/profile"
+                      data-tip="Admin Profile"
+                      className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      }
+                    >
+                      <div className="flex items-center gap-2">
+                        <BiUser />
+                        <span className="is-drawer-close:hidden">Admin Profile</span>
+                      </div>
+                    </NavLink>
+                  </li>
 
-                    <BiUser />
-                    <span className="is-drawer-close:hidden">User Profile</span>
-                  </Link>
-                </li>
-                {/* My Booked Ticket  */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/user/bookings"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Booked Ticket">
+                  {/*Advertise Tickets  */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink 
+                    to={"/dashboard/admin/advertise"} 
+                    className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      }
+                    data-tip="Advertise Tickets">
 
-                    <FaTicket />
-                    <span className="is-drawer-close:hidden">My Booked Ticket</span>
-                  </Link>
-                </li>
-                {/* Transaction Hostory  */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/user/transactions"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+                      <MdAdd />
+                      <span className="is-drawer-close:hidden">Advertise Tickets</span>
+                    </NavLink>
+                  </li>
+                  {/* Manage Tickets */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink to={"/dashboard/admin/manage-tickets"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Manage Tickets">
 
-                    <FaMoneyBill />
-                    <span className="is-drawer-close:hidden">Transaction History</span>
-                  </Link>
-                </li>
-              </div>
+                      <TbBrandBooking />
+                      <span className="is-drawer-close:hidden">Manage Tickets</span>
+                    </NavLink>
+                  </li>
+                  {/*Manage Users */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink to={"/dashboard/admin/manage-users"}className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Manage Users">
 
-              {/* Vendor Sidebar Content  */}
-              <div>
-                {/* Vendor Profile  */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/vendor/profile"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
+                      <FaPlusSquare />
+                      <span className="is-drawer-close:hidden">Manage Users</span>
+                    </NavLink>
+                  </li>
 
-                    <BiUser />
-                    <span className="is-drawer-close:hidden">Vendor Profile</span>
-                  </Link>
-                </li>
-                {/* Add a Ticket  */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/vendor/add-ticket"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Booked Ticket">
+                </div> : role === 'vendor' ? <div>
 
-                    <MdAdd />
-                    <span className="is-drawer-close:hidden">Add a Ticket</span>
-                  </Link>
-                </li>
-                {/* My Added Tickets */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/vendor/my-tickets"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+                  {/* Vendor Profile  */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink to={"/dashboard/vendor/profile"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Vendor Profile">
 
-                    <FaPlusSquare />
-                    <span className="is-drawer-close:hidden">My Added Tickets</span>
-                  </Link>
-                </li>
-                {/* Requested Bookings  */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/vendor/requests"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+                      <BiUser />
+                      <span className="is-drawer-close:hidden">Vendor Profile</span>
+                    </NavLink>
+                  </li>
+                  {/* Add a Ticket  */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink to={"/dashboard/vendor/add-ticket"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Add a Ticket">
 
-                    <TbBrandBooking />
-                    <span className="is-drawer-close:hidden">Requested Bookings</span>
-                  </Link>
-                </li>
-                {/* Revinew Overview */}
-                <li className="hover:bg-white rounded-sm">
-                  <Link to={"/dashboard/vendor/revenue"} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Transaction History">
+                      <MdAdd />
+                      <span className="is-drawer-close:hidden">Add a Ticket</span>
+                    </NavLink>
+                  </li>
+                  {/* My Added Tickets */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink to={"/dashboard/vendor/my-tickets"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="My Added Tickets">
 
-                    <BsCashCoin />
-                    <span className="is-drawer-close:hidden">Revinew Overview</span>
-                  </Link>
-                </li>
-              </div>
+                      <FaPlusSquare />
+                      <span className="is-drawer-close:hidden">My Added Tickets</span>
+                    </NavLink>
+                  </li>
+                  {/* Requested Bookings  */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink to={"/dashboard/vendor/requests"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Requested Bookings">
 
-              {/* Admin sidebar content  */}
-              <div>
+                      <TbBrandBooking />
+                      <span className="is-drawer-close:hidden">Requested Bookings</span>
+                    </NavLink>
+                  </li>
+                  {/* Revinew Overview */}
+                  <li className="hover:bg-white rounded-sm">
+                    <NavLink to={"/dashboard/vendor/revenue"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Revinew Overview">
 
-              </div>
+                      <BsCashCoin />
+                      <span className="is-drawer-close:hidden">Revinew Overview</span>
+                    </NavLink>
+                  </li>
+                </div>
+                  : <div>
+
+                    {/* user Profile  */}
+                    <li className="hover:bg-white rounded-sm">
+                      <NavLink to={"/dashboard/user/profile"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="My Profile">
+
+                        <BiUser />
+                        <span className="is-drawer-close:hidden">User Profile</span>
+                      </NavLink>
+                    </li>
+                    {/* My Booked Ticket  */}
+                    <li className="hover:bg-white rounded-sm">
+                      <NavLink to={"/dashboard/user/bookings"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="My Booked Ticket">
+
+                        <FaTicket />
+                        <span className="is-drawer-close:hidden">My Booked Ticket</span>
+                      </NavLink>
+                    </li>
+                    {/* Transaction Hostory  */}
+                    <li className="hover:bg-white rounded-sm">
+                      <NavLink to={"/dashboard/user/transactions"} className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Transaction History">
+
+                        <FaMoneyBill />
+                        <span className="is-drawer-close:hidden">Transaction History</span>
+                      </NavLink>
+                    </li>
+                  </div>
+              }
+
             </div>
 
             {/* List item */}
             <li className="my-5">
-              <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right hover:bg-white" data-tip="Settings">
+              <button className={({ isActive }) =>
+                        `dashboard-link ${isActive ? "dashboard-link-active" : ""
+                        } is-drawer-close:tooltip is-drawer-close:tooltip-right`
+                      } data-tip="Settings">
                 {/* Settings icon */}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M20 7h-9"></path><path d="M14 17H5"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle></svg>
                 <span className="is-drawer-close:hidden">Settings</span>
@@ -132,8 +211,8 @@ const DashboardLayout = () => {
             </li>
           </ul>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

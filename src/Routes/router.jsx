@@ -20,6 +20,10 @@ import AddTicket from "../Pages/Dashboard/Vendor/AddTicket.jsx";
 import MyAddedTickets from "../Pages/Dashboard/Vendor/MyAddedTickets.jsx";
 import RequestedBookings from "../Pages/Dashboard/Vendor/RequestedBookings.jsx";
 import RevenueOverview from "../Pages/Dashboard/Vendor/RevenueOverview.jsx";
+import AdminProfile from "../Pages/Dashboard/Admin/AdminProfile.jsx";
+import ManageTickets from "../Pages/Dashboard/Admin/ManageTickets.jsx";
+import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers.jsx";
+import AdvertiseTickets from "../Pages/Dashboard/Admin/AdvertiseTickets.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -100,39 +104,70 @@ export const router = createBrowserRouter([
                 </PrivateRoute>
             },
             // Vendor Routes
-            // dashboard children (example)
             {
                 path: "/dashboard/vendor/profile",
                 element: <PrivateRoute>
-                    <VendorProfile/>
+                    <VendorProfile />
                 </PrivateRoute>
             },
             {
                 path: "/dashboard/vendor/add-ticket",
                 element: <PrivateRoute>
-                    <AddTicket/>
+                    <AddTicket />
                 </PrivateRoute>
             },
             {
                 path: "/dashboard/vendor/my-tickets",
-                element:<PrivateRoute>
-                    <MyAddedTickets/>
+                element: <PrivateRoute>
+                    <MyAddedTickets />
                 </PrivateRoute>
             },
 
             {
                 path: "/dashboard/vendor/requests",
                 element: <PrivateRoute>
-                    <RequestedBookings/>
+                    <RequestedBookings />
                 </PrivateRoute>
             },
 
             {
                 path: "/dashboard/vendor/revenue",
                 element: <PrivateRoute>
-                    <RevenueOverview/>
+                    <RevenueOverview />
                 </PrivateRoute>
             },
+
+            //Admin Routes 
+            {
+                path: "/dashboard/admin/profile",
+                element: <PrivateRoute>
+                    <AdminProfile />
+                </PrivateRoute>
+            },
+
+            {
+                path: "/dashboard/admin/manage-tickets",
+                element: <PrivateRoute>
+                    <ManageTickets />
+                </PrivateRoute>
+            },
+
+            {
+                path: "/dashboard/admin/manage-users",
+                element: <PrivateRoute>
+                    <ManageUsers />
+                </PrivateRoute>
+            },
+
+            {
+                path: "/dashboard/admin/advertise",
+                element: <PrivateRoute>
+                    <AdvertiseTickets />
+                </PrivateRoute>
+            },
+
+
+
 
         ]
     }

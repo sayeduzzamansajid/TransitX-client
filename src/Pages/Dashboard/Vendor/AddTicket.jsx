@@ -61,10 +61,10 @@ const AddTicket = () => {
   return (
     <section className="space-y-6">
       <header className="space-y-1">
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+        <h1 className="text-2xl md:text-3xl text-primary text-center font-bold">
           Add Ticket
         </h1>
-        <p className="text-sm text-neutral/70">
+        <p className="text-sm text-neutral/70 text-center">
           Fill in the ticket details and submit for admin approval.
         </p>
       </header>
@@ -75,16 +75,16 @@ const AddTicket = () => {
       >
         {/* Row: title */}
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="form-control md:col-span-2">
+          <div className="form-control md:col-span-2 ">
             <label className="label">
-              <span className="label-text text-sm font-medium text-neutral">
+              <span className="label-text text-sm font-semibold text-neutral">
                 Ticket title
               </span>
             </label>
             <input
               type="text"
               placeholder="Dhaka to Chattogram Express"
-              className="input input-bordered bg-base-100"
+              className="input input-bordered bg-base-100 ml-2"
               {...register("title", { required: "Ticket title is required" })}
             />
             {errors.title && (
@@ -422,7 +422,7 @@ const AddTicket = () => {
               type="text"
               value={vendor.name}
               readOnly
-              className="input input-bordered bg-base-300/60 cursor-not-allowed"
+              className="input input-bordered bg-base-300/60 cursor-not-allowed ml-3"
             />
           </div>
 
@@ -436,7 +436,7 @@ const AddTicket = () => {
               type="email"
               value={vendor.email}
               readOnly
-              className="input input-bordered bg-base-300/60 cursor-not-allowed"
+              className="input input-bordered bg-base-300/60 cursor-not-allowed ml-3"
             />
           </div>
         </div>
