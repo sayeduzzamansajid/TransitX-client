@@ -1,6 +1,9 @@
 // src/Pages/Dashboard/Vendor/AddTicket.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../Hooks/useAuth";
+import { imageURL } from "../../../Utils";
+import axios from "axios";
 
 // Simple BD division -> districts map
 const BD_REGIONS = {
@@ -15,10 +18,7 @@ const BD_REGIONS = {
 };
 
 const AddTicket = () => {
-  const vendor = {
-    name: "Demo Vendor",
-    email: "vendor@example.com",
-  };
+  const { user } = useAuth()
 
   const {
     register,
@@ -52,9 +52,41 @@ const AddTicket = () => {
     setValue("toDistrict", "");
   }, [toDivision, setValue]);
 
-  const onSubmit = async (data) => {
-    console.log("Add ticket form data:", data);
+
+
+  const handleAddTicket = async (data) => {
+    const { title, fromDivision, fromDistrict, toDivision, toDistrict, departure, image, perks, price, quantity, transportType } = data;
     // later: upload image to imgbb, send POST to backend
+    
+    try {
+      const img_url = await imageURL(image[0]);
+      const ticketData = {
+        title,
+        fromDivision,
+        fromDistrict,
+        toDivision,
+        toDistrict,
+        departure,//string
+        image: img_url,
+        perks,//array of string
+        price,//int
+        quantity,//int
+        transportType,
+        seller: {
+          name: user?.displayName,
+          email: user?.email,
+          photo: user?.photoURL,
+        }
+
+      }
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/tickets`, ticketData)
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+
+
     reset();
   };
 
@@ -70,7 +102,7 @@ const AddTicket = () => {
       </header>
 
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleAddTicket)}
         className="bg-base-200 rounded-2xl p-8 space-y-6"
       >
         {/* Row: title */}
@@ -273,7 +305,7 @@ const AddTicket = () => {
               </span>
             </label>
             <input
-              type="number"
+              type="text"
               min="0"
               className="input input-bordered bg-base-100"
               placeholder="1200"
@@ -420,7 +452,7 @@ const AddTicket = () => {
             </label>
             <input
               type="text"
-              value={vendor.name}
+              value={user?.displayName}
               readOnly
               className="input input-bordered bg-base-300/60 cursor-not-allowed ml-3"
             />
@@ -434,7 +466,7 @@ const AddTicket = () => {
             </label>
             <input
               type="email"
-              value={vendor.email}
+              value={user?.email}
               readOnly
               className="input input-bordered bg-base-300/60 cursor-not-allowed ml-3"
             />

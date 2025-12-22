@@ -1,39 +1,75 @@
 // src/Pages/Dashboard/Admin/ManageTickets.jsx
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const ManageTickets = () => {
-  // later: load all tickets added by vendors
-  const tickets = [
-    {
-      _id: "t1",
-      title: "Dhaka to Chattogram Express",
-      vendorName: "Vendor One",
-      vendorEmail: "vendor1@example.com",
-      transportType: "Bus",
-      price: 1200,
-      quantity: 40,
-      status: "pending", // pending | approved | rejected
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
+
+  // 1) Load all tickets
+  const {
+    data: tickets = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["admin-tickets"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/tickets");
+      // expected structure: { title, seller:{name,email}, transportType, price, quantity, verificationStatus }
+      return res.data;
     },
-    {
-      _id: "t2",
-      title: "Dhaka to Sylhet Intercity",
-      vendorName: "Vendor Two",
-      vendorEmail: "vendor2@example.com",
-      transportType: "Train",
-      price: 900,
-      quantity: 25,
-      status: "approved",
+  });
+
+  // 2) Approve mutation
+  const approveMutation = useMutation({
+    mutationFn: (id) => axiosSecure.patch(`/tickets/${id}/approve`),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["admin-tickets"]);
     },
-  ];
+    onError: (err) => {
+      console.error("Approve error:", err);
+    },
+  });
+
+  // 3) Reject mutation
+  const rejectMutation = useMutation({
+    mutationFn: (id) => axiosSecure.patch(`/tickets/${id}/reject`),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["admin-tickets"]);
+    },
+    onError: (err) => {
+      console.error("Reject error:", err);
+    },
+  });
 
   const handleApprove = (id) => {
-    // later: PATCH /tickets/:id { verificationStatus: "approved" }
-    console.log("approve ticket", id);
+    console.log("Approve clicked", id);
+    approveMutation.mutate(id);
   };
 
   const handleReject = (id) => {
-    // later: PATCH /tickets/:id { verificationStatus: "rejected" }
-    console.log("reject ticket", id);
+    console.log("Reject clicked", id);
+    rejectMutation.mutate(id);
   };
+
+  if (isLoading) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <span className="loading loading-spinner text-primary" />
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-sm text-red-500">
+          Failed to load tickets: {error.message}
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className="space-y-6">
@@ -61,40 +97,58 @@ const ManageTickets = () => {
             </tr>
           </thead>
           <tbody>
-            {tickets.map((ticket, index) => (
-              <tr key={ticket._id} className="text-sm">
-                <td>{index + 1}</td>
-                <td>{ticket.title}</td>
-                <td>
-                  <p className="font-medium">{ticket.vendorName}</p>
-                  <p className="text-xs text-neutral/70">
-                    {ticket.vendorEmail}
-                  </p>
-                </td>
-                <td>{ticket.transportType}</td>
-                <td>{ticket.price}</td>
-                <td>{ticket.quantity}</td>
-                <td className="capitalize">{ticket.status}</td>
-                <td>
-                  <div className="flex items-center justify-center gap-2">
-                    <button
-                      className="btn btn-xs btn-success"
-                      onClick={() => handleApprove(ticket._id)}
-                      disabled={ticket.status === "approved"}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className="btn btn-xs btn-error"
-                      onClick={() => handleReject(ticket._id)}
-                      disabled={ticket.status === "rejected"}
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {tickets.map((ticket, index) => {
+              const status = ticket.verificationStatus || "pending";
+              const isApproving =
+                approveMutation.isLoading &&
+                approveMutation.variables === ticket._id;
+              const isRejecting =
+                rejectMutation.isLoading &&
+                rejectMutation.variables === ticket._id;
+
+              return (
+                <tr key={ticket._id} className="text-sm">
+                  <td>{index + 1}</td>
+                  <td>{ticket.title}</td>
+                  <td>
+                    <p className="font-medium">{ticket.seller?.name}</p>
+                    <p className="text-xs text-neutral/70">
+                      {ticket.seller?.email}
+                    </p>
+                  </td>
+                  <td>{ticket.transportType}</td>
+                  <td>{ticket.price}</td>
+                  <td>{ticket.quantity}</td>
+                  <td className="capitalize">{status}</td>
+                  <td>
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        className="btn btn-xs btn-success"
+                        onClick={() => handleApprove(ticket._id)}
+                        disabled={status === "approved" || isApproving}
+                      >
+                        {isApproving ? (
+                          <span className="loading loading-xs loading-spinner" />
+                        ) : (
+                          "Approve"
+                        )}
+                      </button>
+                      <button
+                        className="btn btn-xs btn-error"
+                        onClick={() => handleReject(ticket._id)}
+                        disabled={status === "rejected" || isRejecting}
+                      >
+                        {isRejecting ? (
+                          <span className="loading loading-xs loading-spinner" />
+                        ) : (
+                          "Reject"
+                        )}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

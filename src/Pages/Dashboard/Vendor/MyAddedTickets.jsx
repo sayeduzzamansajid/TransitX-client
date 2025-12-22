@@ -1,37 +1,25 @@
 // src/Pages/Dashboard/Vendor/MyAddedTickets.jsx
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const MyAddedTickets = () => {
-  // later: load from backend for current vendor
-  const tickets = [
-    {
-      _id: "t1",
-      title: "Dhaka to Chattogram Express",
-      image:
-        "https://images.pexels.com/photos/799443/pexels-photo-799443.jpeg",
-      from: "Dhaka",
-      to: "Chattogram",
-      transportType: "Bus",
-      price: 1200,
-      quantity: 40,
-      departureTime: "2025-12-25T09:00:00Z",
-      perks: ["AC", "Snacks"],
-      verificationStatus: "pending", // pending | approved | rejected
+  const { user, loading } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const {
+    data: tickets = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["my-tickets", user?.email],
+    enabled: !loading && !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/my-tickets/${user.email}`);
+      return res.data;
     },
-    {
-      _id: "t2",
-      title: "Dhaka to Sylhet Intercity",
-      image:
-        "https://images.pexels.com/photos/258045/pexels-photo-258045.jpeg",
-      from: "Dhaka",
-      to: "Sylhet",
-      transportType: "Train",
-      price: 900,
-      quantity: 25,
-      departureTime: "2025-12-21T07:30:00Z",
-      perks: ["AC"],
-      verificationStatus: "approved",
-    },
-  ];
+  });
 
   const getStatusBadge = (status) => {
     const base = "badge badge-sm font-medium";
@@ -40,6 +28,24 @@ const MyAddedTickets = () => {
     if (status === "rejected") return `${base} badge-error`;
     return base;
   };
+
+  if (loading || isLoading) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <span className="loading loading-spinner text-primary" />
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-sm text-red-500">
+          Failed to load tickets: {error.message}
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className="space-y-6">
@@ -82,7 +88,7 @@ const MyAddedTickets = () => {
                         {ticket.title}
                       </h2>
                       <p className="text-xs text-neutral/70">
-                        {ticket.from} → {ticket.to}
+                        {ticket.fromDistrict} → {ticket.toDistrict}
                       </p>
                     </div>
                     <span className={getStatusBadge(ticket.verificationStatus)}>
@@ -108,7 +114,7 @@ const MyAddedTickets = () => {
                   <p className="text-xs text-neutral/70">
                     Departure:{" "}
                     <span className="font-medium">
-                      {new Date(ticket.departureTime).toLocaleString()}
+                      {new Date(ticket.departure).toLocaleString()}
                     </span>
                   </p>
 

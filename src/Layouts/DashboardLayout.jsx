@@ -13,7 +13,7 @@ import useRole from "../Hooks/useRole";
 const DashboardLayout = () => {
   // later: get user role from context (user / vendor / admin)
   const [role] = useRole()
-  console.log(role);
+  // console.log(role);
 
   return (
     <div className="drawer lg:drawer-open">

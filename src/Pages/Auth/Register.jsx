@@ -8,7 +8,7 @@ import { saveOrUpdateUser } from "../../Utils";
 
 const Register = () => {
 
-  const { setTogl, createUser, setUser, googleSignIn, updateuser,user,loading } = useAuth()
+  const { setTogl, createUser, setUser, googleSignIn, updateuser, user, loading } = useAuth()
   const navigate = useNavigate()
 
   const {
@@ -16,10 +16,10 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  if(loading){
+  if (loading) {
     return LoadingBar
   }
-  if(user){
+  if (user) {
     return <Navigate to={'/'}></Navigate>
   }
 
@@ -29,17 +29,17 @@ const Register = () => {
   const handleRegister = (data) => {
     const { name, email, photoURL, password } = data;
     console.log(name, email, photoURL, password);
-    const userData={
-      name, email, photo:photoURL,
-    } 
+    const userData = {
+      name, email, photo: photoURL,
+    }
 
     //create user with email and password
     createUser(email, password)
       .then(res => {
         // console.log(res.user);
         setUser(res.user);
-        //save user to mongoB
-        saveOrUpdateUser(userData)
+        //save user to mongoDB
+
         navigate("/")
         //updating user profile with name and image
         updateuser({
@@ -49,6 +49,12 @@ const Register = () => {
           .then(resp => {
             console.log(resp);
             toast.success("user created Successfully!")
+            const userData = {
+              name: res?.user?.displayName,
+              email: res?.user?.email,
+              image: res?.user?.photoURL
+            }
+            saveOrUpdateUser(userData)
           })
           .catch(err => {
             console.log(err);

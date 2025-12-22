@@ -36,10 +36,10 @@ const Accordion = () => {
   return (
     <section className="max-w-4xl mx-auto px-4 py-10">
       <div className="mb-6 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-neutral">
+        <h2 className="text-2xl md:text-3xl font-bold text-primary">
           Frequently Asked Questions
         </h2>
-        <p className="mt-2 text-sm text-neutral/70">
+        <p className="mt-2 text-sm  text-neutral/70">
           Quick answers about booking, payments, and how TransitX works.
         </p>
       </div>
