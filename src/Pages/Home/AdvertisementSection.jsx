@@ -9,7 +9,6 @@ const AdvertisementSection = () => {
     data: advertisedTickets = [],
     isLoading,
     isError,
-    error,
   } = useQuery({
     queryKey: ["advertised-tickets-home"],
     queryFn: async () => {
@@ -32,6 +31,7 @@ const AdvertisementSection = () => {
     // no advertised tickets → hide section
     return null;
   }
+  console.log(advertisedTickets[0]);
 
   return (
     <section className="py-20 bg-base-200">
@@ -68,7 +68,8 @@ const AdvertisementSection = () => {
                 <p className="text-sm">Available: {ticket.quantity}</p>
 
                 <div className="flex flex-wrap gap-2 mt-2 text-xs">
-                  {ticket.perks?.map((perk, idx) => (
+                  {
+                  ticket.perks?.map((perk, idx) => (
                     <span key={idx} className="badge badge-outline">
                       {perk}
                     </span>

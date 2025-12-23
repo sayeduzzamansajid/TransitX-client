@@ -79,12 +79,12 @@ const {
   }
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 lg:w-7xl mx-auto">
       <header>
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
           Manage Tickets
         </h1>
-        <p className="text-sm text-neutral/70">
+        <p className="text-sm text-neutral/70 text-center">
           Review tickets added by vendors and approve or reject them.
         </p>
       </header>

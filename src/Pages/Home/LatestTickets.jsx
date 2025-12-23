@@ -46,16 +46,16 @@ const LatestTickets = () => {
     return (
         <section className="py-10 px-4">
             <div className="max-w-7xl mx-auto space-y-6">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                {/* <div className="flex  md:flex-row md:items-center md:justify-between gap-2 w-7xl mx-auto border-2"> */}
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-neutral">
+                        <h2 className="text-2xl md:text-5xl font-bold text-primary text-center mb-3">
                             Latest Tickets
                         </h2>
-                        <p className="text-sm text-neutral/70">
+                        <p className="text-sm text-center">
                             Recently approved tickets ready for booking.
                         </p>
                     </div>
-                </div>
+                {/* </div> */}
 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {tickets.map((ticket) => (

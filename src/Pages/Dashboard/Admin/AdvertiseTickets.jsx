@@ -1,6 +1,7 @@
 // src/Pages/Dashboard/Admin/AdvertiseTickets.jsx
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const AdvertiseTickets = () => {
   const axiosSecure = useAxiosSecure();
@@ -53,7 +54,11 @@ const AdvertiseTickets = () => {
 
     // extra guard on frontend for max 6
     if (next && advertisedCount >= 6) {
-      alert("You cannot advertise more than 6 tickets at a time.");
+      Swal.fire({
+        title: "Opps Sorry",
+        text: "You Can't Advertise more than 6 Ticket",
+        icon: "error"
+      });
       return;
     }
 
@@ -61,15 +66,15 @@ const AdvertiseTickets = () => {
   };
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 lg:w-7xl mx-auto">
       <header>
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
           Advertise Tickets
         </h1>
-        <p className="text-sm text-neutral/70">
+        <p className="text-sm text-neutral/70 text-center">
           Toggle tickets to show them in the homepage advertisement section.
         </p>
-        <p className="text-xs text-neutral/60 mt-1">
+        <p className="text-md text-neutral/60 font-bold mt-1">
           Currently advertised:{" "}
           <span className="font-semibold text-primary">
             {advertisedCount} / 6

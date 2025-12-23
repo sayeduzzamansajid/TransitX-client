@@ -9,12 +9,12 @@ const RevenueOverview = () => {
   };
 
   return (
-    <section className="space-y-6">
-      <header>
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+    <section className="space-y-6 lg:w-7xl mx-auto lg:p-10 rounded-2xl shadow-sm">
+      <header className="space-y-2 lg:mb-15 lg:mt-5">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
           Revenue Overview
         </h1>
-        <p className="text-sm text-neutral/70">
+        <p className="text-sm text-neutral/70 text-center">
           High-level summary of your sales performance on TransitX.
         </p>
       </header>

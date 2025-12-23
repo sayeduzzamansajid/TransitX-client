@@ -171,7 +171,7 @@ const AddTicket = () => {
   };
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 lg:w-7xl mx-auto">
       <header className="space-y-1">
         <h1 className="text-2xl md:text-3xl text-primary text-center font-bold">
           Add Ticket

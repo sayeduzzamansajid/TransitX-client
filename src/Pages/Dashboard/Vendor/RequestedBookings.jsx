@@ -32,12 +32,12 @@ const RequestedBookings = () => {
   };
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 lg:w-7xl mx-auto">
       <header>
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
           Requested Bookings
         </h1>
-        <p className="text-sm text-neutral/70">
+        <p className="text-sm text-neutral/70 text-center">
           Manage booking requests for your tickets by accepting or rejecting
           them.
         </p>

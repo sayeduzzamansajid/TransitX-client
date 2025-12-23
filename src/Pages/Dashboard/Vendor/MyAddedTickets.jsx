@@ -53,7 +53,7 @@ const MyAddedTickets = () => {
   }
 
   return (
-    <section className="space-y-6 w-7xl mx-auto">
+    <section className="space-y-6 lg:w-7xl mx-auto">
       <header>
         <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
           My Added Tickets
