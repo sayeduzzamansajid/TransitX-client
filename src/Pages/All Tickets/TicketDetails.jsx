@@ -60,7 +60,7 @@ const TicketDetails = () => {
   } = useQuery({
     queryKey: ["ticket", id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/tickets/${id}`);
+      const res = await axiosSecure.get(`/ticket/${id}`);
       return res.data;
     },
   });
@@ -184,7 +184,7 @@ const TicketDetails = () => {
             <div className="bg-base-100 rounded-2xl p-4 shadow-sm flex items-center gap-3">
               <div className="text-primary text-xl">{getIcon(ticket.transportType)}</div>
               <div>
-                <p className="text-xs text-neutral/60">Departure</p>
+                <p className="text-xs text-primary">Departure</p>
                 <p className="text-sm font-semibold">
                   {new Date(ticket.departure).toLocaleString()}
                 </p>

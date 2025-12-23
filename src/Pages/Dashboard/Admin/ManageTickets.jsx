@@ -7,19 +7,26 @@ const ManageTickets = () => {
   const queryClient = useQueryClient();
 
   // 1) Load all tickets
-  const {
-    data: tickets = [],
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["admin-tickets"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/tickets");
-      // expected structure: { title, seller:{name,email}, transportType, price, quantity, verificationStatus }
-      return res.data;
-    },
-  });
+  // 1) Load all tickets
+const {
+  data: tickets = [],
+  isLoading,
+  isError,
+  error,
+} = useQuery({
+  queryKey: ["admin-tickets"],
+  queryFn: async () => {
+    const res = await axiosSecure.get("/tickets");
+    // 🔽 add this sort
+    return res.data
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+  },
+});
+
 
   // 2) Approve mutation
   const approveMutation = useMutation({

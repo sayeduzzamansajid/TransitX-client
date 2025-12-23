@@ -17,7 +17,12 @@ const MyAddedTickets = () => {
     enabled: !loading && !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/my-tickets/${user.email}`);
-      return res.data;
+      return res.data
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     },
   });
 
@@ -48,12 +53,12 @@ const MyAddedTickets = () => {
   }
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-6 w-7xl mx-auto">
       <header>
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
           My Added Tickets
         </h1>
-        <p className="text-sm text-neutral/70">
+        <p className="text-sm text-neutral/70 text-center">
           All tickets you have created, along with their admin verification
           status.
         </p>
@@ -127,7 +132,7 @@ const MyAddedTickets = () => {
 
                   <div className="mt-auto flex gap-2 pt-2">
                     <button
-                      className="btn btn-xs btn-outline flex-1"
+                      className="btn btn-xs btn-primary flex-1"
                       disabled={isRejected}
                     >
                       Update

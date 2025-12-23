@@ -1,35 +1,64 @@
 // src/Pages/Dashboard/Admin/AdvertiseTickets.jsx
-import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const AdvertiseTickets = () => {
-  // later: load all admin-approved tickets
-  const [tickets, setTickets] = useState([
-    {
-      _id: "t1",
-      title: "Dhaka to Chattogram Express",
-      transportType: "Bus",
-      price: 1200,
-      isAdvertised: true,
-    },
-    {
-      _id: "t2",
-      title: "Dhaka to Sylhet Intercity",
-      transportType: "Train",
-      price: 900,
-      isAdvertised: false,
-    },
-  ]);
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
 
-  const toggleAdvertise = (id) => {
-    // later: enforce max 6 advertised and sync with backend
-    setTickets((prev) =>
-      prev.map((t) =>
-        t._id === id ? { ...t, isAdvertised: !t.isAdvertised } : t
-      )
+  const {
+    data: tickets = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["admin-advertise-tickets"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/tickets/approved");
+      // only approved tickets; backend route should return verificationStatus: "approved" ones
+      return res.data;
+    },
+  });
+
+  const toggleMutation = useMutation({
+    mutationFn: ({ id, isAdvertised }) =>
+      axiosSecure.patch(`/tickets/${id}/advertise`, { isAdvertised }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["admin-advertise-tickets"]);
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <span className="loading loading-spinner text-primary" />
+      </section>
     );
-  };
+  }
+
+  if (isError) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-sm text-red-500">
+          Failed to load tickets: {error.message}
+        </p>
+      </section>
+    );
+  }
 
   const advertisedCount = tickets.filter((t) => t.isAdvertised).length;
+
+  const handleToggle = (ticket) => {
+    const next = !ticket.isAdvertised;
+
+    // extra guard on frontend for max 6
+    if (next && advertisedCount >= 6) {
+      alert("You cannot advertise more than 6 tickets at a time.");
+      return;
+    }
+
+    toggleMutation.mutate({ id: ticket._id, isAdvertised: next });
+  };
 
   return (
     <section className="space-y-6">
@@ -38,16 +67,15 @@ const AdvertiseTickets = () => {
           Advertise Tickets
         </h1>
         <p className="text-sm text-neutral/70">
-          Control which approved tickets appear in the advertisement section on
-          the homepage.
+          Toggle tickets to show them in the homepage advertisement section.
+        </p>
+        <p className="text-xs text-neutral/60 mt-1">
+          Currently advertised:{" "}
+          <span className="font-semibold text-primary">
+            {advertisedCount} / 6
+          </span>
         </p>
       </header>
-
-      <p className="text-xs text-neutral/70">
-        Currently advertised:{" "}
-        <span className="font-semibold text-primary">{advertisedCount}</span>{" "}
-        (max 6).
-      </p>
 
       <div className="bg-base-200 rounded-2xl p-4 overflow-x-auto">
         <table className="table table-sm">
@@ -55,8 +83,10 @@ const AdvertiseTickets = () => {
             <tr className="text-xs text-neutral/70">
               <th>#</th>
               <th>Title</th>
+              <th>Route</th>
               <th>Transport</th>
               <th>Price (৳)</th>
+              <th>Qty</th>
               <th>Advertise</th>
             </tr>
           </thead>
@@ -65,15 +95,19 @@ const AdvertiseTickets = () => {
               <tr key={ticket._id} className="text-sm">
                 <td>{index + 1}</td>
                 <td>{ticket.title}</td>
+                <td className="text-xs text-neutral/70">
+                  {ticket.fromDistrict} → {ticket.toDistrict}
+                </td>
                 <td>{ticket.transportType}</td>
                 <td>{ticket.price}</td>
+                <td>{ticket.quantity}</td>
                 <td>
                   <input
                     type="checkbox"
                     className="toggle toggle-sm toggle-primary"
-                    checked={ticket.isAdvertised}
-                    onChange={() => toggleAdvertise(ticket._id)}
-                    // later: disable when already 6 advertised and turning on a new one
+                    checked={!!ticket.isAdvertised}
+                    onChange={() => handleToggle(ticket)}
+                    disabled={toggleMutation.isLoading}
                   />
                 </td>
               </tr>

@@ -1,73 +1,38 @@
+// src/Components/AdvertisementSection/AdvertisementSection.jsx
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
-
-
-const advertisedTickets = [
-  {
-    _id: "1",
-    title: "Dhaka → Cox’s Bazar",
-    image: "https://i.ibb.co.com/vvrYv56F/pic4.jpg",
-    price: 1200,
-    quantity: 25,
-    transportType: "Bus",
-    perks: ["AC", "WiFi", "Recliner Seat"],
-  },
-  {
-    _id: "2",
-    title: "Dhaka → Chattogram",
-    image: "https://i.ibb.co.com/gZ2XsH4s/pic0.jpg",
-    price: 900,
-    quantity: 40,
-    transportType: "Train",
-    perks: ["AC", "Dining"],
-  },
-  {
-    _id: "3",
-    title: "Dhaka → Sylhet",
-    image: "https://i.ibb.co.com/0VRvWW8W/pic-2.jpg",
-    price: 4500,
-    quantity: 12,
-    transportType: "Plane",
-    perks: ["Business Class", "Meals"],
-  },
-  {
-    _id: "4",
-    title: "Barishal → Dhaka",
-    image: "https://i.ibb.co.com/SD56mdD2/pic2.jpg",
-    price: 700,
-    quantity: 30,
-    transportType: "Launch",
-    perks: ["Cabin", "Dinner"],
-  },
-  {
-    _id: "5",
-    title: "Dhaka → Rajshahi",
-    image: "https://i.ibb.co.com/FbThkFv6/pic1.jpg",
-    price: 800,
-    quantity: 20,
-    transportType: "Bus",
-    perks: ["AC", "Charging Port"],
-  },
-  {
-    _id: "6",
-    title: "Dhaka → Khulna",
-    image: "https://i.ibb.co.com/vCKwkKB6/pic3.jpg",
-    price: 950,
-    quantity: 35,
-    transportType: "Train",
-    perks: ["Sleeper", "Washroom"],
-  },
-];
-
-
-// useEffect(() => {
-//   fetch("/tickets/advertised")
-//     .then(res => res.json())
-//     .then(data => setTickets(data));
-// }, []);
-
-
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AdvertisementSection = () => {
+  const axiosSecure = useAxiosSecure()
+  const {
+    data: advertisedTickets = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["advertised-tickets-home"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/tickets/advertised");
+      return res.data; // already max 6 from backend
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <section className="py-20 bg-base-200">
+        <div className="max-w-7xl mx-auto px-4 flex justify-center">
+          <span className="loading loading-spinner text-primary" />
+        </div>
+      </section>
+    );
+  }
+
+  if (isError || advertisedTickets.length === 0) {
+    // no advertised tickets → hide section
+    return null;
+  }
+
   return (
     <section className="py-20 bg-base-200">
       <div className="max-w-7xl mx-auto px-4">
@@ -90,9 +55,7 @@ const AdvertisementSection = () => {
               </figure>
 
               <div className="card-body">
-                <h3 className="font-semibold text-lg">
-                  {ticket.title}
-                </h3>
+                <h3 className="font-semibold text-lg">{ticket.title}</h3>
 
                 <p className="text-sm text-gray-500">
                   Transport: {ticket.transportType}
@@ -102,16 +65,11 @@ const AdvertisementSection = () => {
                   ৳ {ticket.price} / unit
                 </p>
 
-                <p className="text-sm">
-                  Available: {ticket.quantity}
-                </p>
+                <p className="text-sm">Available: {ticket.quantity}</p>
 
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {ticket.perks.map((perk, idx) => (
-                    <span
-                      key={idx}
-                      className="badge badge-outline"
-                    >
+                <div className="flex flex-wrap gap-2 mt-2 text-xs">
+                  {ticket.perks?.map((perk, idx) => (
+                    <span key={idx} className="badge badge-outline">
                       {perk}
                     </span>
                   ))}

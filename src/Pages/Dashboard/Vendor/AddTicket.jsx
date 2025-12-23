@@ -7,15 +7,95 @@ import axios from "axios";
 
 // Simple BD division -> districts map
 const BD_REGIONS = {
-  Dhaka: ["Dhaka", "Gazipur", "Narayanganj", "Faridpur", "Manikganj"],
-  Chattogram: ["Chattogram", "Cox's Bazar", "Feni", "Noakhali"],
-  Khulna: ["Khulna", "Jessore", "Satkhira", "Bagerhat"],
-  Rajshahi: ["Rajshahi", "Pabna", "Sirajganj", "Naogaon"],
-  Sylhet: ["Sylhet", "Moulvibazar", "Habiganj", "Sunamganj"],
-  Barishal: ["Barishal", "Patuakhali", "Bhola"],
-  Rangpur: ["Rangpur", "Dinajpur", "Kurigram"],
-  Mymensingh: ["Mymensingh", "Jamalpur", "Netrokona"],
+  Dhaka: [
+    "Dhaka",
+    "Gazipur",
+    "Narayanganj",
+    "Faridpur",
+    "Manikganj",
+    "Munshiganj",
+    "Narsingdi",
+    "Rajbari",
+    "Shariatpur",
+    "Tangail",
+    "Gopalganj",
+    "Kishoreganj",
+    "Madaripur"
+  ],
+
+  Chattogram: [
+    "Chattogram",
+    "Cox's Bazar",
+    "Feni",
+    "Noakhali",
+    "Bandarban",
+    "Khagrachhari",
+    "Rangamati",
+    "Brahmanbaria",
+    "Chandpur",
+    "Cumilla",
+    "Lakshmipur"
+  ],
+
+  Khulna: [
+    "Khulna",
+    "Jashore",
+    "Satkhira",
+    "Bagerhat",
+    "Chuadanga",
+    "Jhenaidah",
+    "Kushtia",
+    "Magura",
+    "Meherpur",
+    "Narail"
+  ],
+
+  Rajshahi: [
+    "Rajshahi",
+    "Pabna",
+    "Sirajganj",
+    "Naogaon",
+    "Bogra",
+    "Joypurhat",
+    "Natore",
+    "Chapai Nawabganj"
+  ],
+
+  Sylhet: [
+    "Sylhet",
+    "Moulvibazar",
+    "Habiganj",
+    "Sunamganj"
+  ],
+
+  Barishal: [
+    "Barishal",
+    "Patuakhali",
+    "Bhola",
+    "Barguna",
+    "Jhalokathi",
+    "Pirojpur"
+  ],
+
+  Rangpur: [
+    "Rangpur",
+    "Dinajpur",
+    "Kurigram",
+    "Gaibandha",
+    "Lalmonirhat",
+    "Nilphamari",
+    "Panchagarh",
+    "Thakurgaon"
+  ],
+
+  Mymensingh: [
+    "Mymensingh",
+    "Jamalpur",
+    "Netrokona",
+    "Sherpur"
+  ]
 };
+
 
 const AddTicket = () => {
   const { user } = useAuth()

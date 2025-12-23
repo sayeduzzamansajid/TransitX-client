@@ -6,12 +6,14 @@ import HowItWorks from './HowItWorks';
 import Testimonials from './Testimonials';
 import AdvertisementSection from './AdvertisementSection';
 import Accordion from './Accordion';
+import LatestTickets from './LatestTickets';
 
 const Home = () => {
     return (
         <div className='w-7xl mx-auto'>
             <Slider/>
             <AdvertisementSection/>
+            <LatestTickets/>
             <WhyChooseUs/>
             <PopularRoutes/>
             <Testimonials/>
