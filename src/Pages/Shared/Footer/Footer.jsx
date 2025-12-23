@@ -1,13 +1,14 @@
 import React from 'react';
 import Logo from '../../../Components/Logo/Logo';
+import { FaCcMastercard, FaCcPaypal, FaCcVisa, FaStripe } from 'react-icons/fa';
 
 const Footer = () => {
     return (
         <>
-        <footer className=" bg-base-300 text-base-content p-10 shadow-4xl">
+            <footer className=" bg-base-300 text-base-content p-10 shadow-4xl">
                 <div className='w-[80vw] footer sm:footer-horizontal mx-auto '>
                     <aside>
-                        <Logo/>
+                        <Logo />
                         <p>
                             TransitX Ltd.
                             <br />
@@ -23,12 +24,7 @@ const Footer = () => {
                         <a className="link link-hover">Jobs</a>
                         <a className="link link-hover">Press kit</a>
                     </nav>
-                    <nav>
-                        <h6 className="footer-title">Legal</h6>
-                        <a className="link link-hover">Terms of use</a>
-                        <a className="link link-hover">Privacy policy</a>
-                        <a className="link link-hover">Cookie policy</a>
-                    </nav>
+                    
                     <nav>
                         <h6 className="footer-title font-bold text-center">Social</h6>
                         <nav className="flex gap-5 mt-5">
@@ -66,6 +62,18 @@ const Footer = () => {
                                 </svg>
                             </a>
                         </nav>
+                    </nav>
+                    <nav>
+                        <h3 className="footer-title">Payment Methods</h3>
+                        <div className="flex items-center gap-4 text-3xl text-base-content/70">
+                            <FaStripe />
+                            <FaCcVisa />
+                            <FaCcMastercard />
+                            <FaCcPaypal />
+                        </div>
+                        <p className="text-sm mt-4 text-base-content/60">
+                            Secure & trusted global payment gateways.
+                        </p>
                     </nav>
                 </div>
 
