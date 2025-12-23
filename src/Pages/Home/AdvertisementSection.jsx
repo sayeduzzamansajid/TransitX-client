@@ -31,7 +31,6 @@ const AdvertisementSection = () => {
     // no advertised tickets → hide section
     return null;
   }
-  console.log(advertisedTickets[0]);
 
   return (
     <section className="py-20 bg-base-200">
