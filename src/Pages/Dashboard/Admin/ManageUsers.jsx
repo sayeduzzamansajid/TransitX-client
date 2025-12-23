@@ -1,45 +1,127 @@
 // src/Pages/Dashboard/Admin/ManageUsers.jsx
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const ManageUsers = () => {
-  // later: load all users
-  const users = [
-    {
-      _id: "u1",
-      name: "Normal User",
-      email: "user@example.com",
-      role: "user",
-      isFraud: false,
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
+
+  // load all users
+  const {
+    data: users = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["admin-users"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/all-users");
+      return res.data;
     },
-    {
-      _id: "u2",
-      name: "Vendor One",
-      email: "vendor1@example.com",
-      role: "vendor",
-      isFraud: false,
+  });
+
+  // make admin / vendor
+  const roleMutation = useMutation({
+    mutationFn: ({ id, role }) =>
+      axiosSecure.patch(`/users/${id}/role`, { role }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["admin-users"]);
     },
-    {
-      _id: "u3",
-      name: "Vendor Fraud",
-      email: "fraud@example.com",
-      role: "vendor",
-      isFraud: true,
+  });
+
+  // mark fraud
+  const fraudMutation = useMutation({
+    mutationFn: (id) =>
+      axiosSecure.patch(`/users/${id}/fraud`, { isFraud: true }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["admin-users"]);
     },
-  ];
+  });
 
   const handleMakeAdmin = (id) => {
-    // later: PATCH /users/:id { role: "admin" }
-    console.log("make admin", id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do You want to make him Admin?!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        roleMutation.mutate({ id, role: "admin" });
+        Swal.fire({
+          title: "Role Updated!",
+          text: "User is now admin",
+          icon: "success"
+        });
+      }
+    });
   };
 
   const handleMakeVendor = (id) => {
-    // later: PATCH /users/:id { role: "vendor" }
-    console.log("make vendor", id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do You want to make him Vendor?!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        roleMutation.mutate({ id, role: "vendor" });
+        Swal.fire({
+          title: "Role Updated!",
+          text: "User is now admin",
+          icon: "success"
+        });
+      }
+    });
   };
 
   const handleMarkFraud = (id) => {
-    // later: PATCH /users/:id { isFraud: true } and hide all vendor tickets
-    console.log("mark fraud", id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do You want to make him Vendor?!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        fraudMutation.mutate(id);
+        Swal.fire({
+          title: "Role Updated!",
+          text: "User is now Fraud",
+          icon: "success"
+        });
+      }
+    });
   };
+
+  if (isLoading) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <span className="loading loading-spinner text-primary" />
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="flex items-center justify-center min-h-[50vh]">
+        <p className="text-sm text-red-500">
+          Failed to load users: {error.message}
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className="space-y-6 lg:w-7xl mx-auto">
@@ -76,14 +158,14 @@ const ManageUsers = () => {
                     <button
                       className="btn btn-xs btn-outline"
                       onClick={() => handleMakeAdmin(user._id)}
-                      disabled={user.role === "admin"}
+                      disabled={user.role === "admin" || roleMutation.isLoading}
                     >
                       Make Admin
                     </button>
                     <button
                       className="btn btn-xs btn-outline"
                       onClick={() => handleMakeVendor(user._id)}
-                      disabled={user.role === "vendor"}
+                      disabled={user.role === "vendor" || roleMutation.isLoading}
                     >
                       Make Vendor
                     </button>
@@ -92,11 +174,10 @@ const ManageUsers = () => {
                 <td>
                   {user.role === "vendor" && (
                     <button
-                      className={`btn btn-xs ${
-                        user.isFraud ? "btn-error" : "btn-outline"
-                      }`}
+                      className={`btn btn-xs ${user.isFraud ? "btn-error" : "btn-outline"
+                        }`}
                       onClick={() => handleMarkFraud(user._id)}
-                      disabled={user.isFraud}
+                      disabled={user.isFraud || fraudMutation.isLoading}
                     >
                       {user.isFraud ? "Fraud" : "Mark as Fraud"}
                     </button>
