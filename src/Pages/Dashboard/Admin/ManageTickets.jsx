@@ -1,6 +1,7 @@
 // src/Pages/Dashboard/Admin/ManageTickets.jsx
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const ManageTickets = () => {
   const axiosSecure = useAxiosSecure();
@@ -8,24 +9,24 @@ const ManageTickets = () => {
 
   // 1) Load all tickets
   // 1) Load all tickets
-const {
-  data: tickets = [],
-  isLoading,
-  isError,
-  error,
-} = useQuery({
-  queryKey: ["admin-tickets"],
-  queryFn: async () => {
-    const res = await axiosSecure.get("/tickets");
-    // 🔽 add this sort
-    return res.data
-      .slice()
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-  },
-});
+  const {
+    data: tickets = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["admin-tickets"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/tickets");
+      // 🔽 add this sort
+      return res.data
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+    },
+  });
 
 
   // 2) Approve mutation
@@ -52,12 +53,49 @@ const {
 
   const handleApprove = (id) => {
     console.log("Approve clicked", id);
-    approveMutation.mutate(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want ot Approve this Ticket?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        approveMutation.mutate(id);
+        Swal.fire({
+          title: "Approved!",
+          text: "This Ticket has been approved.",
+          icon: "success"
+        });
+      }
+    });
+
   };
 
   const handleReject = (id) => {
     console.log("Reject clicked", id);
-    rejectMutation.mutate(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want ot reject this Ticket?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, reject it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        rejectMutation.mutate(id);
+        Swal.fire({
+          title: "Rejected!",
+          text: "This Ticket has been Rejected.",
+          icon: "success"
+        });
+      }
+    });
   };
 
   if (isLoading) {
