@@ -12,13 +12,13 @@ const Home = () => {
     return (
         <div className='w-7xl mx-auto'>
             <Slider/>
-            <AdvertisementSection/>
+            {/* <AdvertisementSection/>
             <LatestTickets/>
             <WhyChooseUs/>
             <PopularRoutes/>
             <Testimonials/>
             <HowItWorks/>
-            <Accordion/>
+            <Accordion/> */}
         </div>
     );
 };
