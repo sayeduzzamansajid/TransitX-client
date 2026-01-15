@@ -60,19 +60,21 @@ const AdvertisementSection = () => {
                   Transport: {ticket.transportType}
                 </p>
 
-                <p className="font-bold text-primary">
-                  ৳ {ticket.price} / unit
-                </p>
+                <div className="flex justify-between">
+                  <p className="font-bold text-primary">
+                    ৳ {ticket.price} / unit
+                  </p>
 
-                <p className="text-sm">Available: {ticket.quantity}</p>
+                  <p className="text-sm">Available: {ticket.quantity}</p>
+                </div>
 
                 <div className="flex flex-wrap gap-2 mt-2 text-xs">
                   {
-                  ticket.perks?.map((perk, idx) => (
-                    <span key={idx} className="badge badge-outline">
-                      {perk}
-                    </span>
-                  ))}
+                    ticket.perks?.map((perk, idx) => (
+                      <span key={idx} className="badge badge-outline">
+                        {perk}
+                      </span>
+                    ))}
                 </div>
 
                 <div className="card-actions mt-4">

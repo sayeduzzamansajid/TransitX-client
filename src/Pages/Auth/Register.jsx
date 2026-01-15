@@ -3,9 +3,9 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
-import LoadingBar from "../Shared/LoadingBar";
 import { saveOrUpdateUser } from "../../Utils";
 import { BiDevices } from "react-icons/bi";
+import LoadingSpinner from "../Shared/LoadingSpinner";
 
 const Register = () => {
 
@@ -20,7 +20,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   if (loading) {
-    return LoadingBar
+    return <LoadingSpinner/>
   }
   if (user) {
     return <Navigate to={'/'}></Navigate>
@@ -32,9 +32,7 @@ const Register = () => {
   const handleRegister = (data) => {
     const { name, email, photoURL, password } = data;
     console.log(name, email, photoURL, password);
-    const userData = {
-      name, email, photo: photoURL,
-    }
+    
 
     //create user with email and password
     createUser(email, password)
@@ -92,7 +90,7 @@ const Register = () => {
       })
   }
 const handleDemo = () => {
-    document.getElementById('demoModal').showModal()
+    document.getElementById('demoModalr').showModal()
   }
   const demoAdmin = () => {
     setLoading(true)
@@ -144,7 +142,7 @@ const handleDemo = () => {
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100 pt-15 px-4">
-      <div className="w-full max-w-md bg-base-200 p-8 rounded-2xl shadow-xl">
+      <div className="w-full max-w-md bg-base-200 p-8 rounded-2xl shadow-xl my-20">
         {/* Title */}
         <h2 className="text-3xl font-bold text-center mb-6 text-neutral">
           Create an Account
@@ -268,7 +266,7 @@ const handleDemo = () => {
           {/* Register button */}
           <button
             type="submit"
-            className="btn btn-primary w-full mt-2"
+            className="btn btn-primary w-full mt-2 hover:btn-outline hover:bg-primary/60"
           >
             Register
           </button>
@@ -300,7 +298,7 @@ const handleDemo = () => {
           </Link>
         </p>
       </div>
-      <dialog id="demoModal" className="modal modal-bottom sm:modal-middle">
+      <dialog id="demoModalr" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <p className="py-4">Log in as a</p>

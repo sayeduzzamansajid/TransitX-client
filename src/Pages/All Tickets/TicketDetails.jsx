@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { FaBusAlt, FaTrain, FaPlane, FaShip } from "react-icons/fa";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
+import LoadingSpinner from "../Shared/LoadingSpinner";
 
 const getIcon = (type) => {
   switch (type) {
@@ -123,11 +124,7 @@ const TicketDetails = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner text-primary" />
-      </div>
-    );
+    return <LoadingSpinner/>;
   }
 
   if (isError || !ticket) {

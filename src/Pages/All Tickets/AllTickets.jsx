@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
 import axios from "axios";
 import TicketCard from "./TicketCard";
+import LoadingSpinner from "../Shared/LoadingSpinner";
+import AllTicketSkeleton from "../Shared/AllTicketSkeleton";
 
 
 
@@ -64,9 +66,8 @@ const AllTickets = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner text-primary" />
-      </div>
+      <AllTicketSkeleton/>
+      // <LoadingSpinner/>
     );
   }
 

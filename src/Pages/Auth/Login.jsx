@@ -5,7 +5,7 @@ import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { saveOrUpdateUser } from "../../Utils";
 import { BiDevices } from "react-icons/bi";
-import LoadingBar from "../Shared/LoadingBar";
+import LoadingSpinner from "../Shared/LoadingSpinner";
 
 const Login = () => {
   const { setTogl, setUser, signIn, googleSignIn, user, loading, setLoading } = useAuth()
@@ -24,7 +24,7 @@ const Login = () => {
     return <Navigate to={"/"}></Navigate>
   }
   if (loading) {
-    return <LoadingBar />
+    return <LoadingSpinner/>
   }
 
   const onSubmit = (data) => {
@@ -183,7 +183,7 @@ const Login = () => {
           {/* Login button */}
           <button
             type="submit"
-            className="btn btn-primary w-full mt-2"
+            className="btn btn-primary w-full mt-2 hover:btn-outline hover:bg-primary/60"
           >
             Login
           </button>
