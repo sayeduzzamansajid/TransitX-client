@@ -49,6 +49,7 @@ const AllTicketSkeleton = () => {
             {filteredTickets.map((ticket) =><div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
       {/* Image Placeholder */}
       <div className="h-48 w-full bg-gray-300"></div>
+      <div className='hidden'>{ticket}</div>
 
       {/* Content Section */}
       <div className="p-5 space-y-4">

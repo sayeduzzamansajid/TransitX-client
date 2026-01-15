@@ -77,7 +77,7 @@ const AdvertiseTickets = () => {
         <p className="text-md text-neutral/60 font-bold mt-1">
           Currently advertised:{" "}
           <span className="font-semibold text-primary">
-            {advertisedCount} / 6
+            {advertisedCount} / 8
           </span>
         </p>
       </header>

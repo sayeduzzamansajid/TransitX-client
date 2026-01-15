@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
 import { imageURL } from "../../../Utils";
 import axios from "axios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import toast from "react-hot-toast";
 
 // Simple BD division -> districts map
 const BD_REGIONS = {
@@ -99,7 +101,7 @@ const BD_REGIONS = {
 
 const AddTicket = () => {
   const { user } = useAuth()
-
+  const axiosSecure = useAxiosSecure()
   const {
     register,
     handleSubmit,
@@ -159,7 +161,7 @@ const AddTicket = () => {
         }
 
       }
-      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/tickets`, ticketData)
+      const { data } = await axiosSecure.post(`${import.meta.env.VITE_API_URL}/tickets`, ticketData).then(res=> toast.success("Ticket Added! Waiting for Admin approval",res))
 
       console.log(data);
     } catch (error) {
