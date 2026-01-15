@@ -1,11 +1,13 @@
 // src/Pages/Dashboard/Vendor/MyAddedTickets.jsx
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const MyAddedTickets = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const {
     data: tickets = [],
@@ -18,17 +20,22 @@ const MyAddedTickets = () => {
     queryFn: async () => {
       const res = await axiosSecure.get(`/my-tickets/${user.email}`);
       return res.data
-      .slice()
-      .sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+        .slice()
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
     },
   });
 
+  const filteredTickets =
+    statusFilter === "all"
+      ? tickets
+      : tickets.filter((ticket) => ticket.verificationStatus === statusFilter);
+
   const getStatusBadge = (status) => {
     const base = "badge badge-sm font-medium";
-    if (status === "pending") return `${base} badge-ghost`;
+    if (status === "pending") return `${base} badge-primary`;
     if (status === "approved") return `${base} badge-success`;
     if (status === "rejected") return `${base} badge-error`;
     return base;
@@ -69,86 +76,125 @@ const MyAddedTickets = () => {
           You have not added any tickets yet.
         </p>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5 lg:w-7xl mx-auto">
-          {tickets.map((ticket) => {
-            const isRejected = ticket.verificationStatus === "rejected";
-
-            return (
-              <article
-                key={ticket._id}
-                className="bg-base-200 rounded-2xl overflow-hidden shadow-sm flex flex-col"
+        <>
+          <div className="flex justify-center">
+            <div className="flex flex-wrap gap-2 justify-center">
+              <button
+                onClick={() => setStatusFilter("all")}
+                className={`btn btn-sm ${
+                  statusFilter === "all" ? "btn-primary" : "btn-outline"
+                }`}
               >
-                <figure className="h-32 w-full overflow-hidden">
-                  <img
-                    src={ticket.image}
-                    alt={ticket.title}
-                    className="w-full h-full object-cover"
-                  />
-                </figure>
+                All
+              </button>
+              <button
+                onClick={() => setStatusFilter("approved")}
+                className={`btn btn-sm ${
+                  statusFilter === "approved" ? "btn-success " : "btn-outline"
+                }`}
+              >
+                Approved
+              </button>
+              <button
+                onClick={() => setStatusFilter("pending")}
+                className={`btn btn-sm ${
+                  statusFilter === "pending" ? "btn-primary bg-primary/70 text-black" : "btn-outline"
+                }`}
+              >
+                Pending
+              </button>
+              <button
+                onClick={() => setStatusFilter("rejected")}
+                className={`btn btn-sm ${
+                  statusFilter === "rejected" ? "btn-error" : "btn-outline"
+                }`}
+              >
+                Rejected
+              </button>
+            </div>
+          </div>
 
-                <div className="p-4 flex-1 flex flex-col gap-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h2 className="text-sm font-semibold text-neutral">
-                        {ticket.title}
-                      </h2>
-                      <p className="text-xs text-neutral/70">
-                        {ticket.fromDistrict} → {ticket.toDistrict}
-                      </p>
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5 lg:w-7xl mx-auto">
+            {filteredTickets.map((ticket) => {
+              const isRejected = ticket.verificationStatus === "rejected";
+
+              return (
+                <article
+                  key={ticket._id}
+                  className="bg-base-200 rounded-2xl overflow-hidden shadow-sm flex flex-col"
+                >
+                  <figure className="h-32 w-full overflow-hidden">
+                    <img
+                      src={ticket.image}
+                      alt={ticket.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </figure>
+
+                  <div className="p-4 flex-1 flex flex-col gap-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h2 className="text-sm font-semibold text-neutral">
+                          {ticket.title}
+                        </h2>
+                        <p className="text-xs text-neutral/70">
+                          {ticket.fromDistrict} → {ticket.toDistrict}
+                        </p>
+                      </div>
+                      <span className={getStatusBadge(ticket.verificationStatus)}>
+                        {ticket.verificationStatus}
+                      </span>
                     </div>
-                    <span className={getStatusBadge(ticket.verificationStatus)}>
-                      {ticket.verificationStatus}
-                    </span>
+
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="badge badge-outline border-primary text-primary">
+                        {ticket.transportType}
+                      </span>
+                      <span className="font-semibold text-primary">
+                        ৳ {ticket.price}
+                        <span className="text-[10px] text-neutral/60"> / seat</span>
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-neutral/70">
+                      Quantity:{" "}
+                      <span className="font-semibold">{ticket.quantity}</span>
+                    </p>
+
+                    <p className="text-xs text-neutral/70">
+                      Departure:{" "}
+                      <span className="font-medium">
+                        {new Date(ticket.departure).toLocaleString()}
+                      </span>
+                    </p>
+
+                    <p className="text-xs text-neutral/70">
+                      Perks:{" "}
+                      {ticket.perks && ticket.perks.length > 0
+                        ? ticket.perks.join(", ")
+                        : "Standard"}
+                    </p>
+
+                    <div className="mt-auto flex gap-2 pt-2">
+                      <button
+                        className="btn btn-xs btn-primary flex-1"
+                        disabled={isRejected}
+                      >
+                        Update
+                      </button>
+                      <button
+                        className="btn btn-xs btn-error flex-1"
+                        disabled={isRejected}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="badge badge-outline border-primary text-primary">
-                      {ticket.transportType}
-                    </span>
-                    <span className="font-semibold text-primary">
-                      ৳ {ticket.price}
-                      <span className="text-[10px] text-neutral/60"> / seat</span>
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-neutral/70">
-                    Quantity:{" "}
-                    <span className="font-semibold">{ticket.quantity}</span>
-                  </p>
-
-                  <p className="text-xs text-neutral/70">
-                    Departure:{" "}
-                    <span className="font-medium">
-                      {new Date(ticket.departure).toLocaleString()}
-                    </span>
-                  </p>
-
-                  <p className="text-xs text-neutral/70">
-                    Perks:{" "}
-                    {ticket.perks && ticket.perks.length > 0
-                      ? ticket.perks.join(", ")
-                      : "Standard"}
-                  </p>
-
-                  <div className="mt-auto flex gap-2 pt-2">
-                    <button
-                      className="btn btn-xs btn-primary flex-1"
-                      disabled={isRejected}
-                    >
-                      Update
-                    </button>
-                    <button
-                      className="btn btn-xs btn-error flex-1"
-                      disabled={isRejected}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                </article>
+              );
+            })}
+          </div>
+        </>
       )}
     </section>
   );

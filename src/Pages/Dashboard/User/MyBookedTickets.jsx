@@ -42,10 +42,10 @@ const MyBookedTickets = () => {
   return (
     <section className="space-y-6">
       <header>
-        <h1 className="text-2xl md:text-3xl font-bold text-neutral">
+        <h1 className="text-2xl md:text-3xl font-bold text-primary text-center">
           My Booked Tickets
         </h1>
-        <p className="text-sm text-neutral/70">
+        <p className="text-sm text-neutral/70 text-center">
           All tickets you have booked, including payment status and departure
           time.
         </p>
@@ -56,7 +56,7 @@ const MyBookedTickets = () => {
           You have not booked any tickets yet.
         </p>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5 lg:w-7xl mx-auto bg-base-200 ">
           {bookings.map((booking) => {
             const totalPrice = booking.unitPrice * booking.bookedQuantity;
             const departure = new Date(booking.departureTime).toLocaleString();

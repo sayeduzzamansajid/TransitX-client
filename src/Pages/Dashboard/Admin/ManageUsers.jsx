@@ -158,14 +158,14 @@ const ManageUsers = () => {
                     <button
                       className="btn btn-xs btn-outline"
                       onClick={() => handleMakeAdmin(user._id)}
-                      disabled={user.role === "admin" || roleMutation.isLoading}
+                      disabled={user.role === "admin" || user?.email === 'vendor@gmail.com' || user?.email === 'user@gmail.com' || roleMutation.isLoading}
                     >
                       Make Admin
                     </button>
                     <button
                       className="btn btn-xs btn-outline"
                       onClick={() => handleMakeVendor(user._id)}
-                      disabled={user.role === "vendor" || user?.email ==='sayeduzzamansajid@gmail.com' || roleMutation.isLoading}
+                      disabled={user.role === "vendor" || user?.email === 'sayeduzzamansajid@gmail.com' || user?.email === 'admin@gmail.com' || user?.email === 'user@gmail.com' || roleMutation.isLoading}
                     >
                       Make Vendor
                     </button>
@@ -177,7 +177,7 @@ const ManageUsers = () => {
                       className={`btn btn-xs ${user.isFraud ? "btn-error" : "btn-outline"
                         }`}
                       onClick={() => handleMarkFraud(user._id)}
-                      disabled={user.isFraud || fraudMutation.isLoading}
+                      disabled={user.isFraud || fraudMutation.isLoading || user?.email === 'vendor@gmail.com'}
                     >
                       {user.isFraud ? "Fraud" : "Mark as Fraud"}
                     </button>
