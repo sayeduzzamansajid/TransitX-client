@@ -69,7 +69,7 @@ const MyAddedTickets = () => {
           You have not added any tickets yet.
         </p>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:w-7xl mx-auto">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5 lg:w-7xl mx-auto">
           {tickets.map((ticket) => {
             const isRejected = ticket.verificationStatus === "rejected";
 

@@ -53,7 +53,7 @@ const AdvertiseTickets = () => {
     const next = !ticket.isAdvertised;
 
     // extra guard on frontend for max 6
-    if (next && advertisedCount >= 6) {
+    if (next && advertisedCount >= 8) {
       Swal.fire({
         title: "Opps Sorry",
         text: "You Can't Advertise more than 6 Ticket",
