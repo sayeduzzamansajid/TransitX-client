@@ -7,8 +7,6 @@ import Testimonials from './Testimonials';
 import AdvertisementSection from './AdvertisementSection';
 import Accordion from './Accordion';
 import LatestTickets from './LatestTickets';
-import Banner from './Banner';
-import Hero1 from './Hero1';
 
 const Home = () => {
     return (

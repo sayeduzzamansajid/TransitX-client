@@ -238,48 +238,48 @@ export default function Slider() {
 
             {/* Main layout container (using Tailwind) */}
             <div className="bg-base min-h-screen flex flex-col items-center p-4 sm:p-8 lg:pt-25 lg:w-7xl mx-auto">
-    
-    {/* Heading: 
+
+                {/* Heading: 
         - Mobile: text-2xl and centered (looks cleaner on phones)
         - Tablet: text-3xl
         - PC (lg): text-4xl (Restores your original design) 
     */}
-    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary mb-6 lg:mb-8 text-center lg:text-left">
-        All Ticket Book From Here
-    </h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary mb-6 lg:mb-8 text-center lg:text-left">
+                    All Ticket Book From Here
+                </h1>
 
-    {/* Slider Container:
+                {/* Slider Container:
         - Mobile: w-full (Use full screen width on phones)
         - Tablet: w-[90vw] (Slight padding)
         - PC (lg): w-[80vw] (Restores your original design)
     */}
-    <div className="w-full sm:w-[90vw] lg:w-[80vw] max-w-6xl">
-        <div className="swiper mySwiper" ref={swiperElRef}>
-            <div className="swiper-wrapper">
-                {images.map((image, index) => (
-                    <div className="swiper-slide" key={index}>
-                        {/* Image:
+                <div className="w-full sm:w-[90vw] lg:w-[80vw] max-w-6xl">
+                    <div className="swiper mySwiper" ref={swiperElRef}>
+                        <div className="swiper-wrapper">
+                            {images.map((image, index) => (
+                                <div className="swiper-slide" key={index}>
+                                    {/* Image:
                            - Mobile: Added object-cover and specific height to prevent layout shifts
                            - PC: h-auto (Restores original aspect ratio behavior)
                         */}
-                        <img 
-                            src={image.src} 
-                            alt={image.alt} 
-                            className="w-full h-[250px] sm:h-[350px] lg:h-auto object-cover rounded-lg lg:rounded-none"
-                        />
-                    </div>
-                ))}
-            </div>
+                                    <img
+                                        src={image.src}
+                                        alt={image.alt}
+                                        className="w-full h-[250px] sm:h-[350px] lg:h-auto object-cover rounded-lg lg:rounded-none"
+                                    />
+                                </div>
+                            ))}
+                        </div>
 
-            {/* Pagination & Nav */}
-            <div className="swiper-pagination"></div>
-            
-            {/* Hidden on very small screens to save space, shown on sm/lg */}
-            <div className="swiper-button-next hidden sm:block"></div>
-            <div className="swiper-button-prev hidden sm:block"></div>
-        </div>
-    </div>
-</div>
+                        {/* Pagination & Nav */}
+                        <div className="swiper-pagination"></div>
+
+                        {/* Hidden on very small screens to save space, shown on sm/lg */}
+                        <div className="swiper-button-next hidden sm:block"></div>
+                        <div className="swiper-button-prev hidden sm:block"></div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

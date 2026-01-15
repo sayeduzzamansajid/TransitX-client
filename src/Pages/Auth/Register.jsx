@@ -1,15 +1,18 @@
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import LoadingBar from "../Shared/LoadingBar";
 import { saveOrUpdateUser } from "../../Utils";
+import { BiDevices } from "react-icons/bi";
 
 const Register = () => {
 
-  const { setTogl, createUser, setUser, googleSignIn, updateuser, user, loading } = useAuth()
-  const navigate = useNavigate()
+  const { setTogl, createUser, setUser, googleSignIn, updateuser, user, loading,setLoading, signIn } = useAuth()
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -88,7 +91,57 @@ const Register = () => {
         toast.error(errors.message)
       })
   }
-
+const handleDemo = () => {
+    document.getElementById('demoModal').showModal()
+  }
+  const demoAdmin = () => {
+    setLoading(true)
+    const email = 'admin@gmail.com'
+    const password = 'Admin@gmail.com'
+    signIn(email, password)
+      .then(res => {
+        setLoading(false)
+        console.log(res);
+        toast.success("Logged in")
+        navigate(from)
+      })
+      .catch(errors => {
+        console.log(errors);
+        toast.error(errors.message)
+      })
+  }
+  const demoVendor = () => {
+    setLoading(true)
+    const email = 'vendor@gmail.com'
+    const password = 'Vendor@gmail.com'
+    signIn(email, password)
+      .then(res => {
+        setLoading(false)
+        console.log(res);
+        toast.success("Logged in")
+        navigate(from)
+      })
+      .catch(errors => {
+        console.log(errors);
+        toast.error(errors.message)
+      })
+  }
+  const demoUser = () => {
+    setLoading(true)
+    const email = 'user@gmail.com'
+    const password = 'User@gmail.com'
+    signIn(email, password)
+      .then(res => {
+        setLoading(false)
+        console.log(res);
+        toast.success("Logged in")
+        navigate(from)
+      })
+      .catch(errors => {
+        console.log(errors);
+        toast.error(errors.message)
+      })
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100 pt-15 px-4">
       <div className="w-full max-w-md bg-base-200 p-8 rounded-2xl shadow-xl">
@@ -224,8 +277,13 @@ const Register = () => {
         {/* Divider */}
         <div className="divider my-6">OR</div>
 
+        {/* Demo Login */}
+        <button onClick={handleDemo} className="btn btn-outline w-full flex items-center gap-2 ">
+          <BiDevices />
+          Demo Credincial
+        </button>
         {/* Google Register */}
-        <button onClick={handleGooglSignIn} className="btn btn-outline w-full flex items-center gap-2">
+        <button onClick={handleGooglSignIn} className="btn btn-outline w-full flex items-center gap-2 mt-5">
           <FcGoogle size={22} />
           Continue with Google
         </button>
@@ -242,6 +300,23 @@ const Register = () => {
           </Link>
         </p>
       </div>
+      <dialog id="demoModal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">Log in as a</p>
+          <div>
+            <button onClick={demoAdmin} className="btn btn-outline hover:bg-primary hover:text-white ml-5">Admin </button>
+            <button onClick={demoVendor} className="btn btn-outline hover:bg-primary hover:text-white ml-5">Vendor</button>
+            <button onClick={demoUser} className="btn btn-outline hover:bg-primary hover:text-white ml-5">User</button>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };

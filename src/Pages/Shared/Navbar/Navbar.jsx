@@ -112,10 +112,10 @@ const Navbar = () => {
                         </div>
                         : <div>
                             <Link to={"/login"}>
-                                <button onClick={() => setTogl(false)} className={`btn btn-primary ${togl ? "bg-white text-black" : ""}`}>Login</button>
+                                <button onClick={() => setTogl(false)} className={`btn btn-primary text-black ${togl ? "bg-white" : "text-white"}`}>Login</button>
                             </Link>
                             <Link to={"/register"}>
-                                <button onClick={() => setTogl(true)} className={`btn btn-primary ${togl ? "" : "bg-white text-black"}`}>Register</button>
+                                <button onClick={() => setTogl(true)} className={`btn btn-primary text-black  ${togl ? "text-white" : "bg-white"}`}>Register</button>
                             </Link>
                         </div>
                 }
