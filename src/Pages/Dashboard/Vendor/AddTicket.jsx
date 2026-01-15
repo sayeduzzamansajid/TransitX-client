@@ -1,9 +1,8 @@
 // src/Pages/Dashboard/Vendor/AddTicket.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
 import { imageURL } from "../../../Utils";
-import axios from "axios";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 

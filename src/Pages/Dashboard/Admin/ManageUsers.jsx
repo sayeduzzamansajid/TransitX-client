@@ -165,7 +165,7 @@ const ManageUsers = () => {
                     <button
                       className="btn btn-xs btn-outline"
                       onClick={() => handleMakeVendor(user._id)}
-                      disabled={user.role === "vendor" || roleMutation.isLoading}
+                      disabled={user.role === "vendor" || user?.email ==='sayeduzzamansajid@gmail.com' || roleMutation.isLoading}
                     >
                       Make Vendor
                     </button>
