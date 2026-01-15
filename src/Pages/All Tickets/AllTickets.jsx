@@ -133,7 +133,7 @@ const AllTickets = () => {
             No tickets found for this search.
           </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8">
             {filteredTickets.map((ticket) => <TicketCard ticket={ticket}/>)}
           </div>
         )}

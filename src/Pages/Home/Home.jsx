@@ -7,18 +7,20 @@ import Testimonials from './Testimonials';
 import AdvertisementSection from './AdvertisementSection';
 import Accordion from './Accordion';
 import LatestTickets from './LatestTickets';
+import Banner from './Banner';
+import Hero1 from './Hero1';
 
 const Home = () => {
     return (
-        <div className='w-7xl mx-auto'>
+        <div className='container mx-auto'>
             <Slider/>
-            {/* <AdvertisementSection/>
+            <AdvertisementSection/>
             <LatestTickets/>
             <WhyChooseUs/>
             <PopularRoutes/>
             <Testimonials/>
             <HowItWorks/>
-            <Accordion/> */}
+            <Accordion/>
         </div>
     );
 };
