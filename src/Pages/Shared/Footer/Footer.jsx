@@ -1,6 +1,7 @@
 import React from 'react';
 import Logo from '../../../Components/Logo/Logo';
 import { FaCcMastercard, FaCcPaypal, FaCcVisa, FaStripe } from 'react-icons/fa';
+import { NavLink } from 'react-router';
 
 const Footer = () => {
     return (
@@ -18,11 +19,10 @@ const Footer = () => {
 
 
                     <nav>
-                        <h6 className="footer-title">Company</h6>
-                        <a className="link link-hover">About us</a>
-                        <a className="link link-hover">Contact</a>
-                        <a className="link link-hover">Jobs</a>
-                        <a className="link link-hover">Press kit</a>
+                        <h6 className="footer-title font-bold text-black">Company</h6>
+                        <NavLink to={'/about'} className="link link-hover">About us</NavLink>
+                        <NavLink to={'/contact'} className="link link-hover">Contact</NavLink>
+                        <NavLink to={'/why-choose-us'} className="link link-hover">Why Choose us</NavLink>
                     </nav>
                     
                     <nav>
@@ -64,7 +64,7 @@ const Footer = () => {
                         </nav>
                     </nav>
                     <nav>
-                        <h3 className="footer-title">Payment Methods</h3>
+                        <h3 className="footer-title  font-bold text-black">Payment Methods</h3>
                         <div className="flex items-center gap-4 text-3xl text-base-content/70">
                             <FaStripe />
                             <FaCcVisa />
