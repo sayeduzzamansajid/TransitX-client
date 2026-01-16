@@ -51,7 +51,7 @@ body {
 }
 /* index.css */
 .nav-link {
-  @apply px-3 py-2 rounded-md text-sm font-medium hover:bg-secondary;
+  @apply px-3 py-2 rounded-md text-sm font-medium hover:bg-primary/50;
 }
 
 .nav-link-active {
